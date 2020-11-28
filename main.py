@@ -7,7 +7,7 @@ app.register_blueprint(second,url_prefix="/admin") # We only go on second bluepr
 
 @app.route("/")
 def test():
-    return "<h1> Welcome to my first website </h1>"
+     return render_template("home.html")
 
  
 if __name__ =="__main__":
