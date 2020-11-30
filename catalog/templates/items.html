@@ -9,14 +9,26 @@
 <p>From time to time I will show a whole bunch of items with different prices.</p>
 <br>
 <br>
-<image src="{{ url_for('static', filename= 'images/vaccum1.jpg')}}">
-    <p>
 
-        Your very own vaccum cleaner : £29.99 
-        &nbsp;
-        <button type="button" class="btn btn-outline-success">Buy now</button>
-    </p>
+<div>
+    {% for filename in item_images %}
+         {% if filename %}
+              <h3>&nbsp;{{name}}</h3>
+              <image src="{{ filename }}" />
+
+              <p>&nbsp;{{description}}</p>
+              <p>&nbsp;{{price}}</p>
+               <a href="items/button" button type="button" class="btn btn-outline-success">Buy now</a>
+            
+         {% endif %}
+    {% endfor %}
 
 
 
-    {% endblock %}
+</div>
+  
+
+
+   
+
+{% endblock %}
