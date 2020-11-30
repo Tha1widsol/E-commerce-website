@@ -15,6 +15,6 @@ def home():
 def items():
     return render_template("items.html")
    
-#Extra comment
+#
 if __name__ =="__main__":
     app.run()
