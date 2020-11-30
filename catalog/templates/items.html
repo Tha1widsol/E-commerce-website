@@ -1,0 +1,22 @@
+﻿{% extends "base.html" %}
+{% block title%}
+    Items Page
+{% endblock %}
+
+{% block content %}
+<h2>Welcome to the items page</h2>
+
+<p>From time to time I will show a whole bunch of items with different prices.</p>
+<br>
+<br>
+<image src="{{ url_for('static', filename= 'images/vaccum1.jpg')}}">
+    <p>
+
+        Your very own vaccum cleaner : £29.99 
+        &nbsp;
+        <button type="button" class="btn btn-outline-success">Buy now</button>
+    </p>
+
+
+
+    {% endblock %}

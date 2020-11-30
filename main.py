@@ -1,6 +1,6 @@
 from flask import Flask,render_template,redirect,url_for,request,session,flash
 
-from admin.second import second
+from catalog.second import second
 
 app = Flask(__name__)
 app.register_blueprint(second,url_prefix="/admin") # We only go on second blueprint if we see "/admin"
@@ -14,7 +14,11 @@ def home():
 @app.route("/items")
 def items():
     return render_template("items.html")
+
+
+
+
    
-#
+#Extra comment
 if __name__ =="__main__":
     app.run()
