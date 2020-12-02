@@ -4,16 +4,20 @@
 {% endblock %}
 
 {% block content %}
-<h2>Welcome to the items page</h2>
 
-<p>From time to time I will show a whole bunch of items with different prices.</p>
-<br>
-<br>
+<div class="center">
+    <h2 class ="title"> <u>Welcome to the items page</u></h2>
+
+    <p>From time to time I will show a whole bunch of items with different prices.</p>
+</div>
+
 
 <div>
+<br>
+<br>
     {% for filename in item_images %}
          {% if filename %}
-              <h3>&nbsp;{{name}}</h3>
+              <h4>&nbsp;{{name}}</h4>
               <image src="{{ filename }}" />
 
               <p>&nbsp;{{description}}</p>
@@ -23,12 +27,7 @@
          {% endif %}
     {% endfor %}
 
-
-
 </div>
   
-
-
-   
 
 {% endblock %}
