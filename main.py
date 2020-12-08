@@ -1,7 +1,7 @@
 from flask import Flask,render_template,redirect,url_for,request,session,flash
 import os 
-from catalog.second import second,Item
-from catalog.objects import *
+from catalog.second import *
+
 
 
 app = Flask(__name__)
@@ -15,6 +15,8 @@ def home():
 
 
 
+
+     
    
 #Extra comment
 

@@ -1,33 +1,36 @@
 ﻿{% extends "base.html" %}
 {% block title%}
-    Items Page
+ {{page_name}} Page
 {% endblock %}
 
 {% block content %}
 
-<div id ="title">
-    <h2> <u>Welcome to the {{Type}} page</u></h2>
+
+
+
+<div id="title">
+    <h2> <u>Welcome to the {{page_name}} page</u></h2>
 
     <p>From time to time I will show a whole bunch of items with different prices.</p>
+
 </div>
 
 
+<div>
+
+{% for product in database %}
+
 <br>
-<br>
-    {% for filename in item_images %}
-         {% if filename %}
-                <br>
-              <h4>&nbsp;{{name}}</h4>
-              <image src="{{ filename }}" />
+<h4>&nbsp;{{product[2]}}</h4>
+<img src="static/images/{{product[5]}}" />
+<p>&nbsp;{{product[3]}}</p>
+<p>&nbsp; Price:&nbsp;£{{product[4]}}</p>
+<a href="purchased" button type="button" class="btn btn-outline-success">Buy now</a>
 
-              <p>&nbsp;{{description}}</p>
-              <p>&nbsp;{{price}}</p>
-               <a href="purchased" button type="button" class="btn btn-outline-success">Buy now</a>
-            
-         {% endif %}
-    {% endfor %}
+{% endfor %}
 
 
-  
+</div>
+
 
 {% endblock %}
