@@ -13,7 +13,7 @@ def tv_page():
     items=mycursor.fetchall()
     
     
-    return render_template("items.html",page_name="TV's",database=items,tvtab="active")
+    return render_template("items.html",page_name="TV's",database=items,tvtab="active",foldername="tvs")
 
           
 @second.route("purchased")

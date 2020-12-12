@@ -9,23 +9,25 @@
 
 
 <div id="title">
-    <h2> <u>Welcome to the {{page_name}} page</u></h2>
+   <div class="center">
+      <h2> <u>Welcome to the {{page_name}} page</u></h2>
 
-    <p>From time to time I will show a whole bunch of items with different prices.</p>
-
+      <p>From time to time I will show a whole bunch of items with different prices.</p>
+   </div>
 </div>
 
 
 <div>
 
-{% for product in database %}
-
-<br>
-<h4>&nbsp;{{product[2]}}</h4>
-<img src="static/images/{{product[5]}}" />
-<p>&nbsp;{{product[3]}}</p>
-<p>&nbsp; Price:&nbsp;£{{product[4]}}</p>
-<a href="purchased" button type="button" class="btn btn-outline-success">Buy now</a>
+ {% for product in database %}
+    <br>
+    <br>
+    <br>
+    <h4>&nbsp;{{product[2]}}</h4>
+    <img src="static/images/{{foldername}}/{{product[5]}}" width="300" height="200" />
+    <p>&nbsp;{{product[3]}}</p>
+    <p>&nbsp; Price:&nbsp;£{{product[4]}}</p>
+    &nbsp;&nbsp; <a href="purchased" button type="button" class="btn btn-outline-success">Buy now</a>
 
 {% endfor %}
 
