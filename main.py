@@ -14,10 +14,6 @@ def home():
      return render_template("home.html",hometab="active")
 
 
-
-
-     
-   
 #Extra comment
 
 if __name__ =="__main__":
