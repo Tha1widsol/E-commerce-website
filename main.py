@@ -13,7 +13,6 @@ app.register_blueprint(second,url_prefix="/") # We only go on second blueprint i
 def home():
      return render_template("home.html",hometab="active")
 
-
 #Extra comment
 
 if __name__ =="__main__":
