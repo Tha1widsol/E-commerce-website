@@ -22,6 +22,13 @@ def vaccum_cleaners_page():
     return render_template("items.html",page_name="Vaccum cleaners",database=items,vaccumtab="active",foldername="vaccumcleaners")
 
 
+@second.route("/computers")
+def computers_page():
+    values= "computers"
+    mycursor.execute("""SELECT * FROM Item WHERE type=%s """,(values,))
+    items=mycursor.fetchall()
+    
+    return render_template("items.html",page_name="computers",database=items,computerstab="active",foldername="computers")
 
 @second.route("purchased")
 def button():
