@@ -5,30 +5,29 @@ from catalog.objects import *
 second = Blueprint("second",__name__,static_folder="static",template_folder="templates")
 
  
-@second.route("/TVs")
-def tv_page():
-    values= "TV"
-    mycursor.execute("""SELECT * FROM Item WHERE type=%s """,(values,))
+@second.route("/<name>")
+def items_page(name):
+    mycursor.execute("""SELECT * FROM Item WHERE type=%s """,(name,))
     items=mycursor.fetchall()
+
+    if name=="TV":
+        tvtab="active"
+    else:
+        tvtab=None
+
+    if name=="Vaccumcleaners":
+        vaccumtab="active"
+    else:
+        vaccumtab=None
     
-    return render_template("items.html",page_name="TV's",database=items,tvtab="active",foldername="tvs")
-
-@second.route("/Vaccumcleaners")
-def vaccum_cleaners_page():
-    values="Vaccumcleaners"
-    mycursor.execute("""SELECT * FROM Item WHERE type=%s """,(values,))
-    items=mycursor.fetchall()
-
-    return render_template("items.html",page_name="Vaccum cleaners",database=items,vaccumtab="active",foldername="vaccumcleaners")
+    if name=="computers":
+        computerstab="active"
+    else:
+        computerstab=None
 
 
-@second.route("/computers")
-def computers_page():
-    values= "computers"
-    mycursor.execute("""SELECT * FROM Item WHERE type=%s """,(values,))
-    items=mycursor.fetchall()
-    
-    return render_template("items.html",page_name="computers",database=items,computerstab="active",foldername="computers")
+    return render_template("items.html",page_name=name,database=items,tvtab=tvtab,vaccumtab=vaccumtab,computerstab=computerstab,foldername=name)
+
 
 @second.route("purchased")
 def button():
