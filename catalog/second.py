@@ -28,10 +28,10 @@ def items_page(name):
 
     return render_template("items.html",page_name=name,database=items,tvtab=tvtab,vaccumtab=vaccumtab,computerstab=computerstab,foldername=name)
 
-
-@second.route("purchased")
-def button():
+@second.route("<name>/purchased")
+def button(name):
     return "<p> You bought this item </p>"
+
 
           
 
