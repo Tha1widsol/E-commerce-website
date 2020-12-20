@@ -10,3 +10,7 @@ body {
 #footerbackground{
     background-color :lightgrey;
 }
+
+#centralizedtext{
+    text-align: center;
+}
