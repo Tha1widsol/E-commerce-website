@@ -5,6 +5,9 @@
 
 {% block content %}
 
+{% if user != None %}
+    <p>Welcome, {{user}}</p>
+{%endif%}
 
     <div id="title">
         <div class="center">

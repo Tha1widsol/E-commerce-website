@@ -1,4 +1,4 @@
-from flask import Blueprint,render_template
+from flask import Blueprint,render_template,request,session
 import os
 from catalog.objects import *
 

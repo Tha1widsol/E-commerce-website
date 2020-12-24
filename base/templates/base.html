@@ -19,6 +19,9 @@
                 <a class="nav-item nav-link {{computerstab}}" href="computers">Computers</a>
                 <a class="nav-item nav-link {{registertab}}" href="register">Register</a>
                 <a class="nav-item nav-link" href="login">Sign in</a>
+                {% if user !=None %}
+                  <a class="nav-item nav-link" href="logout">Logout</a>
+                {% endif %}
 
 
             </div>
