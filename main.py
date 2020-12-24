@@ -14,6 +14,7 @@ app.register_blueprint(home,url_prefix="/")
 app.register_blueprint(register,url_prefix="/")
 app.config['SECRET_KEY'] = "helsgddo"
 
+
 if __name__ =="__main__":
     app.run(debug=True,use_reloader=False)
 

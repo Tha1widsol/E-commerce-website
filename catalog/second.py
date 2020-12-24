@@ -1,6 +1,7 @@
 from flask import Blueprint,render_template,request,session
 import os
 from catalog.objects import *
+from admin.register import session_data
 
 second = Blueprint("second",__name__,static_folder="static",template_folder="templates")
 
@@ -25,9 +26,10 @@ def items_page(name):
     else:
         computerstab=None
 
-
-    return render_template("items.html",page_name=name,database=items,tvtab=tvtab,vaccumtab=vaccumtab,computerstab=computerstab,foldername=name)
-
+    if session_data("user"):
+        return render_template("items.html",page_name=name,database=items,tvtab=tvtab,vaccumtab=vaccumtab,computerstab=computerstab,foldername=name,user_in_session=session_data("user")[1])
+    else:
+         return render_template("items.html",page_name=name,database=items,tvtab=tvtab,vaccumtab=vaccumtab,computerstab=computerstab,foldername=name)
 
 @second.route("<id>/<purchased>")
 def button(id,purchased):
