@@ -10,7 +10,7 @@ def session_data(data):
 
     else:
         return None
-        
+
 def check_data(*args):
     for data in args:
         if len(data)>0:
@@ -20,31 +20,31 @@ def check_data(*args):
             
 @register.route("/register",methods=["POST","GET"])
 def register_page():
-        if request.method =="POST":
-            email = request.form.get("em")
-            username = request.form.get("nm")
-            password = request.form.get("ps")
-            confirmpass = request.form.get("cps")
-            if check_data(email,username,password,confirmpass):
-              if password == confirmpass:
-                      session["user"] = username
-                      flash("Account successfully created")
-                      return redirect(url_for("home.home_page"))
-                      
+    if request.method =="POST":
+        email = request.form.get("em")
+        username = request.form.get("nm")
+        password = request.form.get("ps")
+        confirmpass = request.form.get("cps")
+        if check_data(email,username,password,confirmpass):
+            if password == confirmpass:
+                    session["user"] = username
+                    flash("Account successfully created")
+                    return redirect(url_for("home.home_page"))
+                    
 
-              else:
-                 flash("Passwords don't match. Please try again","info")
-                 return redirect(url_for(".register_page"))
             else:
-                flash("Invalid details. Please try again")
+                flash("Passwords don't match. Please try again","info")
                 return redirect(url_for(".register_page"))
-
-
         else:
-            if session_data("user"):
-              return render_template("register.html",registertab="active",user=session_data("user"))
-            else:
-                 return render_template("register.html",registertab="active",user=None)
+            flash("Invalid details. Please try again")
+            return redirect(url_for(".register_page"))
+
+
+    else:
+        if session_data("user"):
+            return render_template("register.html",registertab="active",user=session_data("user"))
+        else:
+                return render_template("register.html",registertab="active",user=None)
 
 
 @register.route("/logout")
