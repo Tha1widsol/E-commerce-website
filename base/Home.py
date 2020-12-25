@@ -6,7 +6,7 @@ home = Blueprint("home",__name__,static_folder="static",template_folder="templat
 @home.route("/home")
 def home_page():
      if session_data("user"):
-        return render_template("home.html",hometab="active",user=session_data("user")[0],user_in_session=session_data("user")[1])
+        return render_template("home.html",hometab="active",user=session_data("user"))
      else:
          return render_template("home.html",hometab="active",user=None)
 
