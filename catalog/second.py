@@ -1,45 +1,54 @@
 from flask import Blueprint,render_template,request,session,flash,url_for,redirect
 import os
 from catalog.objects import *
-from admin.register import session_data
 
 second = Blueprint("second",__name__,static_folder="static",template_folder="templates")
-
  
-@second.route("/<name>")
-def items_page(name):
-    mycursor.execute("""SELECT * FROM Item WHERE type=%s """,(name,))
+@second.route("/<item_type>")
+def items_page(item_type):
+    mycursor.execute("""SELECT * FROM Item WHERE type=%s """,(item_type,))
     items=mycursor.fetchall()
 
-    if name=="TV":
+    if item_type=="TV":
         tvtab="active"
     else:
         tvtab=None
 
-    if name=="Vaccumcleaners":
+    if item_type=="Vaccumcleaners":
         vaccumtab="active"
     else:
         vaccumtab=None
     
-    if name=="computers":
+    if item_type=="computers":
         computerstab="active"
     else:
         computerstab=None
 
-    if session_data("user"):
-        return render_template("items.html",page_name=name,database=items,tvtab=tvtab,vaccumtab=vaccumtab,computerstab=computerstab,foldername=name,user=session_data("user"))
+    if "user" in session:
+        return render_template("items.html",page_name=item_type,database=items,tvtab=tvtab,vaccumtab=vaccumtab,computerstab=computerstab,foldername=item_type,user= session.get("user",None))
     else:
-         return render_template("items.html",page_name=name,database=items,tvtab=tvtab,vaccumtab=vaccumtab,computerstab=computerstab,foldername=name,user=None)
+         return render_template("items.html",page_name=item_type,database=items,tvtab=tvtab,vaccumtab=vaccumtab,computerstab=computerstab,foldername=item_type,user=None)
 
-@second.route("<name>/<id>/<purchased>")
-def button(name,id,purchased):
-    if session_data("user"):
-      return "<p> You bought this item </p>"
+@second.route("/button/<id>/<item_type>")
+def button(id,item_type):
+    if "user" in session:
+     flash("Item added to basket")
+     mycursor.execute("""SELECT * FROM Item WHERE itemID=%s """,(id,))
+     items=mycursor.fetchall()
+     session["items"] = items
+    
+     return redirect(url_for(".items_page",item_type=item_type))
+     
+
     else:
         flash("Please make an account or login before purchasing")
         return redirect(url_for("register.register_page"))
 
 
+@second.route("/basket")
+def basket_page():
+     basket_items = session.get("items",None)
+     return render_template("basket.html",basket_items = basket_items)
 
 
           

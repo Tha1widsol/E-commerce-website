@@ -7,7 +7,6 @@ db = mysql.connector.connect(
     database="items"
     )
     
-
 mycursor = db.cursor()
 
 #mycursor.execute("CREATE DATABASE items")

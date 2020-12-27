@@ -3,14 +3,6 @@ from flask import Flask,Blueprint,render_template,redirect,url_for,request,sessi
 register = Blueprint("register",__name__,static_folder="static",template_folder="templates")
 
 
-def session_data(data):
-    if data in session:
-       data = session[data]
-       return data
-
-    else:
-        return None
-
 def check_data(*args):
     for data in args:
         if len(data)>0:
@@ -41,15 +33,15 @@ def register_page():
 
 
     else:
-        if session_data("user"):
-            return render_template("register.html",registertab="active",user=session_data("user"))
+        if "user" in session:
+            return render_template("register.html",registertab="active",user= session.get("user",None))
         else:
-                return render_template("register.html",registertab="active",user=None)
+            return render_template("register.html",registertab="active",user=None)
 
 
 @register.route("/logout")
 def logout():
-    if session_data("user"):
+    if "user" in session:
          session.pop("user",None)
          return redirect(url_for("home.home_page"))
     
