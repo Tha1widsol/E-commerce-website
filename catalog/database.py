@@ -11,9 +11,10 @@ mycursor = db.cursor()
 
 #mycursor.execute("CREATE DATABASE items")
 
-#mycursor.execute("DROP TABLE IF EXISTS Item;")
 
-#mycursor.execute("CREATE TABLE IF NOT EXISTS Item(itemID int PRIMARY KEY AUTO_INCREMENT,type VARCHAR(20),name VARCHAR(50),description TEXT(100),price FLOAT(10), picfile TEXT(20))")
+mycursor.execute("DROP TABLE IF EXISTS Item;")
+
+mycursor.execute("CREATE TABLE IF NOT EXISTS Item(itemID int PRIMARY KEY AUTO_INCREMENT,type VARCHAR(2000),name VARCHAR(2000),description TEXT(2000),price FLOAT(20), picfile TEXT(2000))")
 
 mycursor.execute("""INSERT INTO Item(type,name,description,price,picfile) VALUES
 ('TV','Samsung Q355Q60R','Samsungs QLED is certified to deliver 100% colour volume.',749.99,'tv1.jpg'),
@@ -28,19 +29,14 @@ mycursor.execute("""INSERT INTO Item(type,name,description,price,picfile) VALUES
 ('computers','Acer Nitro 50 i7 8GB 1TB SSD GTX1660 Super Gaming PC','Intel Core i710700 processor,Octa core processor,Processor speed 2.9GHz with a burst speed of 4.8GHz,8GB RAM DDR4,1TB SSD storage,NVIDIA GTX 1660 Super with 6GB memory GDDR6',1199.99,'computer2.webp'),
 ('computers','Vibox I-18 Gaming PC with a Free Game','Windows 10,Quad Core Ryzen Processor,Radeon Vega 8 Graphics,8GB RAM,1TB Hard Drive',614.95,'computer3.jpg'),
 ('computers','Acer Nitro 5 17.3in i5 8GB 512GB GTX1650 Gaming Laptop','Intel Core i5 10300H processor,Quad core processor,2.5GHz processor speed with a burst speed of 4.5GHz,8GB RAM DDR4,512GB SSD storage,Microsoft Windows 10',799.99,'computer4.webp')
-
 """)
-
 
 db.commit()
 
-#mycursor.execute("DROP TABLE IF EXISTS Users;")
 
-#mycursor.execute("CREATE TABLE IF NOT EXISTS Users (ID int PRIMARY KEY AUTO_INCREMENT,email VARCHAR(100),username VARCHAR(100),password VARCHAR(100))")
-mycursor.execute("SELECT * FROM Users")
 
-for x in mycursor:
-    print(x)
+#mycursor.execute("CREATE TABLE IF NOT EXISTS Users (ID int PRIMARY KEY AUTO_INCREMENT,email VARCHAR(100),username VARCHAR(1000),password VARCHAR(1000))")
+
 
 
 

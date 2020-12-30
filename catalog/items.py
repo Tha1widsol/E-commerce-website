@@ -1,10 +1,10 @@
 from flask import Blueprint,render_template,request,session,flash,url_for,redirect
 import os
-from catalog.objects import *
+from catalog.database import *
 
-second = Blueprint("second",__name__,static_folder="static",template_folder="templates")
+items = Blueprint("items",__name__,static_folder="static",template_folder="templates")
  
-@second.route("/<item_type>")
+@items.route("/<item_type>")
 def items_page(item_type):
     mycursor.execute("""SELECT * FROM Item WHERE type=%s """,(item_type,))
     items=mycursor.fetchall()
@@ -29,7 +29,7 @@ def items_page(item_type):
     else:
          return render_template("items.html",page_name=item_type,database=items,tvtab=tvtab,vaccumtab=vaccumtab,computerstab=computerstab,foldername=item_type,user=None)
 
-@second.route("/button/<id>/<item_type>")
+@items.route("/button/<id>/<item_type>")
 def button(id,item_type):
     if "user" in session:
      flash("Item added to basket")
@@ -42,16 +42,11 @@ def button(id,item_type):
 
     else:
         flash("Please make an account or login before purchasing")
-        return redirect(url_for("accounts.register_page"))
+        return redirect(url_for("register.register_page"))
 
 
-@second.route("/basket")
+@items.route("/basket")
 def basket_page():
      basket_items = session.get("items",None)
      return render_template("basket.html",basket_items = basket_items)
-
-
-          
-
-
 
