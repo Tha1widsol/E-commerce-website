@@ -42,7 +42,7 @@ def button(id,item_type):
 
     else:
         flash("Please make an account or login before purchasing")
-        return redirect(url_for("register.register_page"))
+        return redirect(url_for("accounts.register_page"))
 
 
 @second.route("/basket")

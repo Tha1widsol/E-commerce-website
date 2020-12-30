@@ -1,6 +1,6 @@
 from flask import Flask,Blueprint,render_template,redirect,url_for,request,session,flash
-
-register = Blueprint("register",__name__,static_folder="static",template_folder="templates")
+from catalog.objects import *
+accounts = Blueprint("accounts",__name__,static_folder="static",template_folder="templates")
 
 
 def check_data(*args):
@@ -10,16 +10,19 @@ def check_data(*args):
         else:
             return False
             
-@register.route("/register",methods=["POST","GET"])
+@accounts.route("/register",methods=["POST","GET"])
 def register_page():
     if request.method =="POST":
         email = request.form.get("em")
         username = request.form.get("nm")
         password = request.form.get("ps")
         confirmpass = request.form.get("cps")
+    
         if check_data(email,username,password,confirmpass):
             if password == confirmpass:
                     session["user"] = username
+                    mycursor.execute("INSERT INTO Users (email,username,password) VALUES (%s,%s,%s)",(email,username,password))
+                    db.commit()
                     flash("Account successfully created")
                     return redirect(url_for("home.home_page"))
                     
@@ -39,7 +42,7 @@ def register_page():
             return render_template("register.html",registertab="active",user=None)
 
 
-@register.route("/logout")
+@accounts.route("/logout")
 def logout():
     if "user" in session:
          session.pop("user",None)

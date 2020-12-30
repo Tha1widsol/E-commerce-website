@@ -32,4 +32,16 @@ mycursor.execute("""INSERT INTO Item(type,name,description,price,picfile) VALUES
 """)
 
 
+db.commit()
+
+#mycursor.execute("DROP TABLE IF EXISTS Users;")
+
+#mycursor.execute("CREATE TABLE IF NOT EXISTS Users (ID int PRIMARY KEY AUTO_INCREMENT,email VARCHAR(100),username VARCHAR(100),password VARCHAR(100))")
+mycursor.execute("SELECT * FROM Users")
+
+for x in mycursor:
+    print(x)
+
+
+
 
