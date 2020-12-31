@@ -43,10 +43,31 @@ def register_page():
 
 @accounts.route("/login",methods=["POST","GET"])
 def login_page():
-   # if request.method=="POST":
-    pass
+    if request.method=="POST":
+        username = request.form.get("nm")
+        password = request.form.get("ps")
+        if check_data(username,password):
+            mycursor.execute("""SELECT * FROM Users WHERE username=(%s) AND password=(%s)""",(username,password))
+       
+            user = mycursor.fetchall()
+            
+            for data in user:
+                if username== data[2] and password==data[3]:
+                    session["user"] = username
+                    flash("Logged in successfully")
+                    return redirect(url_for("home.home_page"))
+
+                
+            flash("Username or password is incorrect")
+            return redirect(url_for(".login_page"))
+
+        else:
+            flash("Invalid details. Please try again")
+            return redirect(url_for(".login_page"))
 
 
+    else:
+        return render_template("login.html",logintab="active",user=None)
 
 @accounts.route("/logout")
 def logout():

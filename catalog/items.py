@@ -42,11 +42,15 @@ def button(id,item_type):
 
     else:
         flash("Please make an account or login before purchasing")
-        return redirect(url_for("register.register_page"))
+        return redirect(url_for("accounts.register_page"))
 
 
 @items.route("/basket")
 def basket_page():
-     basket_items = session.get("items",None)
-     return render_template("basket.html",basket_items = basket_items)
+    basket_items = session.get("items",None)
 
+    if "user" in session:
+      return render_template("basket.html",basket_items = basket_items,user=session.get("user",None))
+
+    else:
+        return render_template("basket.html",basket_items = basket_items,user=None)
