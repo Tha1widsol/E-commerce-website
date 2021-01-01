@@ -12,9 +12,12 @@ mycursor = db.cursor()
 #mycursor.execute("CREATE DATABASE items")
 
 
-mycursor.execute("DROP TABLE IF EXISTS Item;")
 
+#mycursor.execute("DROP TABLE IF EXISTS BasketItems;")
+
+for _ in mycursor.execute("SET FOREIGN_KEY_CHECKS = 0; DROP TABLE IF EXISTS Item; SET FOREIGN_KEY_CHECKS = 1;",multi=True): pass
 mycursor.execute("CREATE TABLE IF NOT EXISTS Item(itemID int PRIMARY KEY AUTO_INCREMENT,type VARCHAR(2000),name VARCHAR(2000),description TEXT(2000),price FLOAT(20), picfile TEXT(2000))")
+
 
 mycursor.execute("""INSERT INTO Item(type,name,description,price,picfile) VALUES
 ('TV','Samsung Q355Q60R','Samsungs QLED is certified to deliver 100% colour volume.',749.99,'tv1.jpg'),
@@ -33,11 +36,15 @@ mycursor.execute("""INSERT INTO Item(type,name,description,price,picfile) VALUES
 
 db.commit()
 
+#mycursor.execute("ALTER TABLE BasketItems ADD FOREIGN KEY(productID) REFERENCES Item(itemID)")
+
+
 
 
 #mycursor.execute("CREATE TABLE IF NOT EXISTS Users (ID int PRIMARY KEY AUTO_INCREMENT,email VARCHAR(100),username VARCHAR(1000),password VARCHAR(1000))")
 
 
+#mycursor.execute("CREATE TABLE BasketItems(ID int PRIMARY KEY AUTO_INCREMENT,UsersID int,productID int DEFAULT 0)")
 
-
+#mycursor.execute("ALTER TABLE BasketItems ADD FOREIGN KEY(productID) REFERENCES Item(itemID)")
 
