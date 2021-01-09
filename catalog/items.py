@@ -32,12 +32,17 @@ def items_page(item_type):
 @items.route("/button/<id>/<item_type>")
 def button(id,item_type):
     if "user" in session:
-     flash("Item added to basket")
-     mycursor.execute("""SELECT * FROM Item WHERE itemID=%s """,(id,))
-     items=mycursor.fetchall()
-     session["items"] = items
-    
-     return redirect(url_for(".items_page",item_type=item_type))
+        flash("Item added to basket")
+        username = session.get("user",None)
+        mycursor.execute("""SELECT ID FROM Users WHERE username= '%s'""" %(username))
+        
+        UserID = mycursor.fetchone()
+        ItemID = id
+
+        mycursor.execute("INSERT INTO BasketItems(UsersID,productID) VALUES (%s,%s)",(*UserID,ItemID))
+        db.commit()
+
+        return redirect(url_for(".items_page",item_type=item_type))
      
 
     else:
@@ -47,10 +52,8 @@ def button(id,item_type):
 
 @items.route("/basket")
 def basket_page():
-    basket_items = session.get("items",None)
-
     if "user" in session:
-      return render_template("basket.html",basket_items = basket_items,user=session.get("user",None))
+      return render_template("basket.html",basket_items = None,user=session.get("user",None))
 
     else:
-        return render_template("basket.html",basket_items = basket_items,user=None)
+        return render_template("basket.html",basket_items = None,user=None)

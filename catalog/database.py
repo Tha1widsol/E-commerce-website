@@ -7,7 +7,7 @@ db = mysql.connector.connect(
     database="items"
     )
     
-mycursor = db.cursor()
+mycursor = db.cursor(buffered=True)
 
 #mycursor.execute("CREATE DATABASE items")
 
@@ -34,7 +34,6 @@ mycursor.execute("""INSERT INTO Item(type,name,description,price,picfile) VALUES
 ('computers','Acer Nitro 5 17.3in i5 8GB 512GB GTX1650 Gaming Laptop','Intel Core i5 10300H processor,Quad core processor,2.5GHz processor speed with a burst speed of 4.5GHz,8GB RAM DDR4,512GB SSD storage,Microsoft Windows 10',799.99,'computer4.webp')
 """)
 
-db.commit()
 
 #mycursor.execute("ALTER TABLE BasketItems ADD FOREIGN KEY(productID) REFERENCES Item(itemID)")
 
@@ -48,3 +47,5 @@ db.commit()
 
 #mycursor.execute("ALTER TABLE BasketItems ADD FOREIGN KEY(productID) REFERENCES Item(itemID)")
 
+
+db.commit()
