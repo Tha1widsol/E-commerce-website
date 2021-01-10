@@ -10,12 +10,12 @@ def check_data(*args):
         else:
             return False
             
-def exists(username):
-    q = """SELECT username FROM Users"""
+def exists(username,email):
+    q = """SELECT username,Email FROM Users"""
     mycursor.execute(q)
-    for usernames in mycursor.fetchall():
-       usernames = list(usernames)
-       if username in usernames:
+    for data in mycursor.fetchall():
+       data = list(data)
+       if username in data[0] or email ==data[1]:
           return True
 
     return False
@@ -30,7 +30,7 @@ def register_page():
         confirmpass = request.form.get("cps")
     
         if check_data(email,username,password,confirmpass):
-          if not(exists(username)):
+          if not(exists(username,email)):
             if password == confirmpass:
                     session["user"] = username
                     mycursor.execute("INSERT INTO Users (email,username,password) VALUES (%s,%s,%s)",(email,username,password))
@@ -44,7 +44,7 @@ def register_page():
                 return redirect(url_for(".register_page"))
                     
           else:
-              flash("Username already exists. Please try again")
+              flash("Username or email already exists. Please try again")
               return redirect(url_for(".register_page"))
 
         else:
