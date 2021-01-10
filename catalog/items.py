@@ -31,8 +31,10 @@ def items_page(item_type):
 
 @items.route("/button/<id>/<item_type>")
 def button(id,item_type):
+    item_added=False
     if "user" in session:
         flash("Item added to basket")
+
         username = session.get("user",None)
         mycursor.execute("""SELECT ID FROM Users WHERE username= '%s'""" %(username))
         
@@ -64,7 +66,9 @@ def basket_page():
         for item in basket_items:
             total_price +=item[2]
         db.commit()
+       
         return render_template("basket.html",basket_items = basket_items,user=session.get("user",None),total_price = total_price)
+        
 
     else:
         return render_template("basket.html",user=None)

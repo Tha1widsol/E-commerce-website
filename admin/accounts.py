@@ -11,7 +11,7 @@ def check_data(*args):
             return False
             
 def exists(username,email):
-    q = """SELECT username,Email FROM Users"""
+    q = """SELECT username,email FROM Users"""
     mycursor.execute(q)
     for data in mycursor.fetchall():
        data = list(data)

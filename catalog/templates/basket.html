@@ -7,6 +7,7 @@
 {% block content %}
 
 
+
 <div id="title">
     <div class="center">
        <h2> <u>Welcome to the Basket page</u></h2>
@@ -14,6 +15,10 @@
     </div>
 
 </div>
+
+{% if total_price==0 %}
+<h6>No items added to basket</h6>
+{% endif %}
 
 {% for product in basket_items %}
     <br>
@@ -28,5 +33,7 @@
    
 </div>
 
+{% if total_price>0 %}
 <h4>Total Price: £{{total_price}}</h4>
+{% endif %}
 {% endblock %}
