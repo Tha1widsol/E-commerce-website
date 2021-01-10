@@ -10,6 +10,17 @@ def check_data(*args):
         else:
             return False
             
+def exists(username):
+    q = """SELECT username FROM Users"""
+    mycursor.execute(q)
+    for usernames in mycursor.fetchall():
+       usernames = list(usernames)
+       if username in usernames:
+          return True
+
+    return False
+
+
 @accounts.route("/register",methods=["POST","GET"])
 def register_page():
     if request.method =="POST":
@@ -19,17 +30,23 @@ def register_page():
         confirmpass = request.form.get("cps")
     
         if check_data(email,username,password,confirmpass):
+          if not(exists(username)):
             if password == confirmpass:
                     session["user"] = username
                     mycursor.execute("INSERT INTO Users (email,username,password) VALUES (%s,%s,%s)",(email,username,password))
                     db.commit()
                     flash("Account successfully created")
                     return redirect(url_for("home.home_page"))
-                    
 
+            
             else:
                 flash("Passwords don't match. Please try again","info")
                 return redirect(url_for(".register_page"))
+                    
+          else:
+              flash("Username already exists. Please try again")
+              return redirect(url_for(".register_page"))
+
         else:
             flash("Invalid details. Please try again")
             return redirect(url_for(".register_page"))

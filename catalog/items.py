@@ -52,6 +52,7 @@ def button(id,item_type):
 
 @items.route("/basket")
 def basket_page():
+    total_price = 0
     if "user" in session:
         username = session.get("user",None)
         get_id = """SELECT ID FROM Users WHERE username = '%s' """%(username)
@@ -60,8 +61,10 @@ def basket_page():
         id = mycursor.fetchone()
         mycursor.execute("""SELECT Item.name,Item.description,Item.price,Item.picfile,Item.type FROM Item INNER JOIN BasketItems ON Item.itemID = BasketItems.productID WHERE BasketItems.UsersID = '%s'"""%(id))
         basket_items = mycursor.fetchall()
+        for item in basket_items:
+            total_price +=item[2]
         db.commit()
-        return render_template("basket.html",basket_items = basket_items,user=session.get("user",None))
+        return render_template("basket.html",basket_items = basket_items,user=session.get("user",None),total_price = total_price)
 
     else:
         return render_template("basket.html",user=None)
