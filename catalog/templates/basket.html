@@ -6,7 +6,27 @@
 
 {% block content %}
 
-<p>Hello </p>
-{{basket_items}}
+
+<div id="title">
+    <div class="center">
+       <h2> <u>Welcome to the Basket page</u></h2>
+
+    </div>
+
+</div>
+
+{% for product in basket_items %}
+    <br>
+    <br>
+    <h4>&nbsp;{{product[0]}}</h4>
+    <img src="static/images/{{product[4]}}/{{product[3]}}" width="300" height="200" />
+    <p>&nbsp;{{product[1]}}</p>
+    <p>&nbsp; Price:&nbsp;£{{product[2]}}</p>
+
+{% endfor %}
+
+   
+</div>
+
 
 {% endblock %}

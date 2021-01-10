@@ -53,7 +53,15 @@ def button(id,item_type):
 @items.route("/basket")
 def basket_page():
     if "user" in session:
-      return render_template("basket.html",basket_items = None,user=session.get("user",None))
+        username = session.get("user",None)
+        get_id = """SELECT ID FROM Users WHERE username = '%s' """%(username)
+        mycursor.execute(get_id)
+
+        id = mycursor.fetchone()
+        mycursor.execute("""SELECT Item.name,Item.description,Item.price,Item.picfile,Item.type FROM Item INNER JOIN BasketItems ON Item.itemID = BasketItems.productID WHERE BasketItems.UsersID = '%s'"""%(id))
+        basket_items = mycursor.fetchall()
+        db.commit()
+        return render_template("basket.html",basket_items = basket_items,user=session.get("user",None))
 
     else:
-        return render_template("basket.html",basket_items = None,user=None)
+        return render_template("basket.html",user=None)
