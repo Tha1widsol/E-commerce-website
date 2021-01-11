@@ -61,7 +61,8 @@ def basket_page():
         mycursor.execute(get_id)
 
         id = mycursor.fetchone()
-        mycursor.execute("""SELECT Item.name,Item.description,Item.price,Item.picfile,Item.type FROM Item INNER JOIN BasketItems ON Item.itemID = BasketItems.productID WHERE BasketItems.UsersID = '%s'"""%(id))
+        session["userid"] = id
+        mycursor.execute("""SELECT Item.name,Item.description,Item.price,Item.picfile,Item.type,Item.itemID FROM Item INNER JOIN BasketItems ON Item.itemID = BasketItems.productID WHERE BasketItems.UsersID = '%s'"""%(id))
         basket_items = mycursor.fetchall()
         for item in basket_items:
             total_price +=item[2]
@@ -72,3 +73,12 @@ def basket_page():
 
     else:
         return render_template("basket.html",user=None)
+
+@items.route("/remove/<id>")
+def remove(id):
+    userid = session.get("userid",None)
+    mycursor.execute("""DELETE FROM BasketItems WHERE productID = (%s) AND UsersID = (%s)""",(id,*userid))
+    flash("Item removed from basket")
+    return redirect(url_for(".basket_page"))
+
+
