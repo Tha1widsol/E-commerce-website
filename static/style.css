@@ -22,9 +22,34 @@ input{
    
 }
 
-#block{
-    height:250px;
-    width: 500px;
+#blackout{
     background: rgba(0,0,0,0.6);
+    top:-150%;
+    width: 100%;
+    height: 500%;
+
+    position: absolute;
+    display: none;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    
+
+}
+
+#popup-container{
+    height:500px;
+    width: 900px;
+    bottom:200px;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    display: none;
+    overflow: scroll;
     position: relative;
+    left:190px;
+   
+    
+    
+
 }

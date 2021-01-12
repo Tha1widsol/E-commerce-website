@@ -31,7 +31,6 @@ def items_page(item_type):
 
 @items.route("/button/<id>/<item_type>")
 def button(id,item_type):
-    item_added=False
     if "user" in session:
         flash("Item added to basket")
 

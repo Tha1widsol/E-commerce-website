@@ -5,9 +5,7 @@
 {% endblock %}
 
 {% block content %}
-
-
-
+<div class id="blackout"></div>
 <div id="title">
     <div class="center">
        <h2> <u>Welcome to the Basket page</u></h2>
@@ -16,6 +14,7 @@
 
 </div>
 
+</div>
 {% if total_price==0 %}
 <h6>No items added to basket</h6>
 {% endif %}
@@ -32,11 +31,53 @@
 
 {% endfor %}
 
-   
-</div>
-
 {% if total_price>0 %}
 <br>
-<h4>Total Price: £{{total_price}}</h4>
+<h4>Total Price: £{{total_price}}&nbsp;&nbsp;<button id="checkout" button type="button" class="btn btn-outline-success">Checkout</button> </h4> 
 {% endif %}
+
+
+<div class id="popup-container">
+    <div class id="ordering">
+        <h5>Items:<br></h5>
+        {% for product in basket_items %}
+        <ol>
+            <li>&nbsp;{{product[0]}}&nbsp;:&nbsp;&nbsp;£{{product[2]}}</li>
+        </ol>
+        {% endfor %}
+        <h5>Total Price: £{{total_price}}</h5>
+        <br>
+        <button id="confirm" button type="button" class="btn btn-outline-success">Confirm</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button id="cancel" button type="button" class="btn btn-outline-success">Cancel</button>
+      
+    </div>
+
+    <div class id="ordered">
+        <p>Yes</p>
+    </div>
+</div>
+
+
+<script>
+    document.getElementById("checkout").addEventListener("click", function(){
+        document.getElementById("blackout").style.display="flex";
+        document.getElementById("popup-container").style.display="flex";
+        document.getElementById("ordered").style.display="none";
+
+   
+
+    })
+    document.getElementById("cancel").addEventListener("click", function(){
+        document.getElementById("blackout").style.display="none";
+        document.getElementById("popup-container").style.display="none";
+    
+    })
+    
+    document.getElementById("confirm").addEventListener("click", function(){
+        document.getElementById("ordering").style.display="none";
+        document.getElementById("ordered").style.display="flex";
+    })
+</script>
+
 {% endblock %}
