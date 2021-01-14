@@ -48,8 +48,14 @@ input{
     overflow: scroll;
     position: relative;
     left:190px;
-   
     
-    
+}
 
+#product-container{
+    height:500x;
+    width: 700px;
+    border-style: solid;
+    border-color: white;
+    border-width:10px;
+    background: whitesmoke;
 }

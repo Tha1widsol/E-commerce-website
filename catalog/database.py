@@ -47,11 +47,3 @@ mycursor.execute("""INSERT INTO Item(type,name,description,price,picfile) VALUES
 #mycursor.execute("ALTER TABLE BasketItems ADD FOREIGN KEY(productID) REFERENCES Item(itemID)")
 
 #mycursor.execute("SELECT * FROM BasketItems")
-
-
-
-mycursor.execute("""SELECT * FROM Users""")
-
-for x in mycursor.fetchall():
-    print(x)
-
