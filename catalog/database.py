@@ -40,11 +40,18 @@ mycursor.execute("""INSERT INTO Item(type,name,description,price,picfile) VALUES
 
 
 
-#mycursor.execute("CREATE TABLE IF NOT EXISTS Users (ID int PRIMARY KEY AUTO_INCREMENT,email VARCHAR(100),username VARCHAR(1000),password VARCHAR(1000))")
+#mycursor.execute("CREATE TABLE IF NOT EXISTS Users (ID int PRIMARY KEY AUTO_INCREMENT,email VARCHAR(100),username VARCHAR(1000),password VARCHAR(10000))")
 
 
 #mycursor.execute("CREATE TABLE BasketItems(ID int PRIMARY KEY AUTO_INCREMENT,UsersID int,productID int DEFAULT 0)")
 #mycursor.execute("ALTER TABLE BasketItems ADD FOREIGN KEY(productID) REFERENCES Item(itemID)")
 
 #mycursor.execute("SELECT * FROM BasketItems")
+
+
+
+mycursor.execute("""SELECT * FROM Users""")
+
+for x in mycursor.fetchall():
+    print(x)
 
