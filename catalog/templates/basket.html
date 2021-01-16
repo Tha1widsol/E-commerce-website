@@ -46,17 +46,46 @@
         {% endfor %}
         <h5>Total Price: £{{total_price}}</h5>
         <br>
+                
+
+        <form action='#' method="post">
+        
+        
+        <p>Credit Card number:</p>
+            <p> <input type="text" placeholder="Credit card number" name="cn"></p>
+        
+            
+        <p>Security number:</p>
+            <p> <input type="text" placeholder="Security number" name="cn" /> </p>
+        
+        
+        <p>Address1:</p>
+            <p> <input type="text" placeholder="Address" name="ad" />  </p>
+
+              
+        <p>Address2:</p>
+            <p> <input type="text" placeholder="Address2" name="ad" />  </p>
+        
+        <p>Postcode:</p>
+            <p> <input type="text" placeholder="Postcode" name="ad" />  </p>
+        
+        </form>
+
+
         <button id="confirm" button type="button" class="btn btn-outline-success">Confirm</button>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <button id="cancel" button type="button" class="btn btn-outline-success">Cancel</button>
       
-    </div>
-
-    <div class id="ordered">
-        <p>Yes</p>
-    </div>
 </div>
 
+    <div class id="ordered">
+        <div class id ="centralizedtext">
+            <h5>Thanks for ordering! Your parcel will come soon</h5>
+            <a href="/done" button id="done" button type="button" class="btn btn-outline-success">Done</a>
+        </div>
+      
+    </div>
+</div>
 
 <script>
     document.getElementById("checkout").addEventListener("click", function(){
@@ -67,15 +96,24 @@
    
 
     })
+   
+    
+    document.getElementById("confirm").addEventListener("click", function(){
+        document.getElementById("ordering").style.display="none";
+        document.getElementById("ordered").style.display="flex";
+    })
+
     document.getElementById("cancel").addEventListener("click", function(){
         document.getElementById("blackout").style.display="none";
         document.getElementById("popup-container").style.display="none";
     
     })
+
+    document.getElementById("done").addEventListener("click", function(){
+        document.getElementById("blackout").style.display="none";
+        document.getElementById("popup-container").style.display="none";
+        document.getElementById("ordered").style.display="none";
     
-    document.getElementById("confirm").addEventListener("click", function(){
-        document.getElementById("ordering").style.display="none";
-        document.getElementById("ordered").style.display="flex";
     })
 </script>
 
