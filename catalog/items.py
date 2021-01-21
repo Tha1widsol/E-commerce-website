@@ -39,15 +39,19 @@ def button(id,item_type):
         mycursor.execute("""SELECT ID FROM Users WHERE username= '%s'""" %(username))
         UserID = mycursor.fetchone()
         ItemID = id
+
+        session["itemid"] = ItemID
+        session["userid"] = UserID
         mycursor.execute("INSERT INTO BasketItems(UsersID,productID) VALUES (%s,%s)",(*UserID,ItemID))
         db.commit()
+        return redirect(url_for(".items_page",item_type=item_type))
       
 
       else:
         flash("Please make an account or login before purchasing")
         return redirect(url_for("accounts.register_page"))
 
-      return redirect(url_for(".items_page",item_type=item_type))
+      
 
 @items.route("/basket",methods=["POST","GET"])
 
@@ -56,8 +60,8 @@ def basket_page():
     username = session.get("user",None)
     get_id = """SELECT ID FROM Users WHERE username = '%s' """%(username)
     mycursor.execute(get_id)
-
     id = mycursor.fetchone()
+
     session["userid"] = id
     mycursor.execute("""SELECT Item.name,Item.description,Item.price,Item.picfile,Item.type,Item.itemID FROM Item INNER JOIN BasketItems ON Item.itemID = BasketItems.productID WHERE BasketItems.UsersID = '%s'"""%(id))
     basket_items = mycursor.fetchall()

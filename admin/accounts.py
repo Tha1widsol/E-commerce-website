@@ -29,8 +29,7 @@ def register_page():
         username = request.form.get("nm")
         password = request.form.get("ps").encode("utf-8")
         confirmpass = request.form.get("cps").encode("utf-8")
-        quantity = request.form.get("dropdown")
-        print(quantity)
+
         if check_data(email,username,password,confirmpass):
           if not(exists(username,email)):
             if password == confirmpass:

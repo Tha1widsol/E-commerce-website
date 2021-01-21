@@ -17,16 +17,16 @@
 </div>
 
 {% for product in basket_items %}
+<div class id ="product-container">
     <br>
     <br>
     <h4>&nbsp;{{product[0]}}</h4>
     <img src="static/images/{{product[4]}}/{{product[3]}}" width="300" height="200" />
     <p>&nbsp;{{product[1]}}</p>
     <p>&nbsp; Price:&nbsp;£{{product[2]}}</p>
-     </form>
     <a href="/remove/{{product[5]}}" button type="button" class="btn btn-outline-success">Remove</a>
     <br>
-
+</div>
 {% endfor %}
 
 {% if total_price>0 %}
@@ -42,7 +42,7 @@
         <h5>Items:<br></h5>
         {% for product in basket_items %}
         <ul>
-            <li>&nbsp;{{product[0]}}&nbsp;:&nbsp;&nbsp;£{{product[2]}}</li>
+            <li>&nbsp;{{product[0]}}&nbsp;:&nbsp;&nbsp;£{{product[2]}} X {{product[6]}}</li>
         </ul>
         {% endfor %}
         <h5>Total Price: £{{total_price}}</h5>
