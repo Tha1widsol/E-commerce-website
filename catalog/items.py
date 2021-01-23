@@ -9,6 +9,11 @@ items = Blueprint("items",__name__,static_folder="static",template_folder="templ
 def items_page(item_type):
     mycursor.execute("""SELECT * FROM Item WHERE type=%s """,(item_type,))
     items=mycursor.fetchall()
+    if request.method=="POST":
+        quantity = request.form.get("dropdown")
+        print(quantity)
+        session["quantity"] = quantity
+        flash("Quantity added")
 
     if item_type=="TV":
         tvtab="active"
@@ -35,6 +40,7 @@ def items_page(item_type):
 def button(id,item_type):
       if "user" in session:
         flash("Item added to basket")
+        
         username = session.get("user",None)
         mycursor.execute("""SELECT ID FROM Users WHERE username= '%s'""" %(username))
         UserID = mycursor.fetchone()
@@ -42,8 +48,13 @@ def button(id,item_type):
 
         session["itemid"] = ItemID
         session["userid"] = UserID
-        mycursor.execute("INSERT INTO BasketItems(UsersID,productID) VALUES (%s,%s)",(*UserID,ItemID))
+        quantity = session.get("quantity",None)
+        mycursor.execute("INSERT INTO BasketItems(UsersID,productID,quantity) VALUES (%s,%s,%s)",(*UserID,ItemID,quantity))
         db.commit()
+        mycursor.execute("SELECT * FROM BasketItems")
+
+        for x in mycursor.fetchall():
+                print(x)
         return redirect(url_for(".items_page",item_type=item_type))
       
 

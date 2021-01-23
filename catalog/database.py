@@ -34,14 +34,14 @@ mycursor.execute("""INSERT INTO Item(type,name,description,price,picfile) VALUES
 ('computers','Acer Nitro 5 17.3in i5 8GB 512GB GTX1650 Gaming Laptop','Intel Core i5 10300H processor,Quad core processor,2.5GHz processor speed with a burst speed of 4.5GHz,8GB RAM DDR4,512GB SSD storage,Microsoft Windows 10',799.99,'computer4.webp')
 """)
 
-#mycursor.execute("CREATE TABLE BasketItems(ID int PRIMARY KEY AUTO_INCREMENT,UsersID int,productID int DEFAULT 0)")
+
+#mycursor.execute("CREATE TABLE BasketItems(ID int PRIMARY KEY AUTO_INCREMENT,UsersID int,productID int DEFAULT 0,quantity int DEFAULT 1)")
 
 #mycursor.execute("ALTER TABLE BasketItems ADD FOREIGN KEY(productID) REFERENCES Item(itemID)")
 
+#mycursor.execute("DROP TABLE IF EXISTS Item;")
 
 #mycursor.execute("CREATE TABLE IF NOT EXISTS Users (ID int PRIMARY KEY AUTO_INCREMENT,email VARCHAR(100),username VARCHAR(1000),password VARCHAR(10000))")
-
-
 
 
 
