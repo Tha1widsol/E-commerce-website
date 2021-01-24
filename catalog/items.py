@@ -9,9 +9,9 @@ items = Blueprint("items",__name__,static_folder="static",template_folder="templ
 def items_page(item_type):
     mycursor.execute("""SELECT * FROM Item WHERE type=%s """,(item_type,))
     items=mycursor.fetchall()
+    
     if request.method=="POST":
         quantity = request.form.get("dropdown")
-        print(quantity)
         session["quantity"] = quantity
         flash("Quantity added")
 
@@ -49,12 +49,10 @@ def button(id,item_type):
         session["itemid"] = ItemID
         session["userid"] = UserID
         quantity = session.get("quantity",None)
+
         mycursor.execute("INSERT INTO BasketItems(UsersID,productID,quantity) VALUES (%s,%s,%s)",(*UserID,ItemID,quantity))
         db.commit()
-        mycursor.execute("SELECT * FROM BasketItems")
-
-        for x in mycursor.fetchall():
-                print(x)
+    
         return redirect(url_for(".items_page",item_type=item_type))
       
 
@@ -74,14 +72,16 @@ def basket_page():
     id = mycursor.fetchone()
 
     session["userid"] = id
-    mycursor.execute("""SELECT Item.name,Item.description,Item.price,Item.picfile,Item.type,Item.itemID FROM Item INNER JOIN BasketItems ON Item.itemID = BasketItems.productID WHERE BasketItems.UsersID = '%s'"""%(id))
+    mycursor.execute("""SELECT Item.name,Item.description,Item.price,Item.picfile,Item.type,Item.itemID,BasketItems.quantity AS q FROM Item INNER JOIN BasketItems ON Item.itemID = BasketItems.productID WHERE BasketItems.UsersID = '%s'"""%(id))
     basket_items = mycursor.fetchall()
     for item in basket_items:
-        total_price +=(item[2])
+        total_price +=(item[2]*item[6])
+
     db.commit()
     if request.method =="POST":
         credit_card_num = request.form.get("cn")
         address = request.form.get("ad")
+
     return render_template("basket.html",basket_items = basket_items,user=session.get("user",None),total_price = round(total_price,2))
         
 
