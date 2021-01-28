@@ -22,6 +22,24 @@ input{
    
 }
 
+#home_tvs,#home_vaccums,#home_computers{
+    position: absolute;
+}
+
+#home_tvs{
+    left:370px;
+}
+
+#home_vaccums{
+    bottom:330px;
+    left:500px;
+}
+
+#home_computers{
+    right:420px;
+    top:230px;
+}
+
 #blackout{
     background: rgba(0,0,0,0.6);
     top:-150%;
