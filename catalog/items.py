@@ -31,14 +31,15 @@ def items_page(item_type):
         computerstab=None
 
     if "user" in session:
-        return render_template("items.html",page_name=item_type,database=items,tvtab=tvtab,vaccumtab=vaccumtab,computerstab=computerstab,foldername=item_type,user= session.get("user",None))
+        return render_template("items.html",page_name=item_type,database=items,tvtab=tvtab,vaccumtab=vaccumtab,computerstab=computerstab,foldername=item_type,user= session.get("user",None),items_in_basket = session.get("items_in_basket",None))
     else:
         return render_template("items.html",page_name=item_type,database=items,tvtab=tvtab,vaccumtab=vaccumtab,computerstab=computerstab,foldername=item_type,user=None)
 
 
 @items.route("/button/<id>/<item_type>")
 def button(id,item_type):
-      if "user" in session:
+    items_in_basket=0
+    if "user" in session:
         flash("Item added to basket")
         
         username = session.get("user",None)
@@ -51,16 +52,20 @@ def button(id,item_type):
         quantity = session.get("quantity",None)
         
         mycursor.execute("INSERT INTO BasketItems(UsersID,productID,quantity) VALUES (%s,%s,%s)",(*UserID,ItemID,quantity))
+        mycursor.execute("SELECT * FROM BasketItems")
+        for item in mycursor.fetchall():
+                items_in_basket+=1
 
+        session["items_in_basket"] = items_in_basket
         if "quantity" in session:
             session.pop("quantity",None)
 
         db.commit()
-    
-        return redirect(url_for(".items_page",item_type=item_type))
-      
 
-      else:
+        return redirect(url_for(".items_page",item_type=item_type))
+        
+
+    else:
         flash("Please make an account or login before purchasing")
         return redirect(url_for("accounts.register_page"))
 
@@ -96,6 +101,8 @@ def basket_page():
 def done():
      mycursor.execute("TRUNCATE TABLE BasketItems")
      db.commit()
+     if "items_in_basket" in session:
+          session.pop("items_in_basket",None)
      return redirect(url_for("home.home_page"))
 
 @items.route("/remove/<id>")

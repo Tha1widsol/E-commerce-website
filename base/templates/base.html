@@ -21,12 +21,19 @@
                 <a class="nav-item nav-link {{computerstab}}" href="computers">Computers</a>
                 {% if user!=None %}
                   <a class="nav-item nav-link" href="logout">Logout</a>
-                  <a href="/basket"> <img src="static/images/basket.jpg"  width="50" height="40" button type="button" >Items</a>
+                  {% if items_in_basket !=None%}
+                      <a href="/basket"> <img src="static/images/basket.jpg"  width="50" height="40" button type="button" >{{items_in_basket}}</a>
+                  {% else %}
+                      <a href="/basket"> <img src="static/images/basket.jpg"  width="50" height="40" button type="button" ></a>
+                  {% endif %}
+                      
+                  &nbsp;&nbsp;&nbsp;
+                 <a class="nav-item nav-link active">Logged in as, {{user}}</a>
                 {% else %}
-                
                 <a class="nav-item nav-link {{registertab}}" href="register">Register</a>
                 <a class="nav-item nav-link {{logintab}}" href="login">Sign in</a>
                 {% endif %}
+               
 
             </div>
         </div>
@@ -37,9 +44,7 @@
             </form>
         </nav>
     </nav>
-    {% if user != None %}
-        <h4>Logged in as, {{user}}</h4>
-    {%endif%}
+  
     <style>
 
         .center {
