@@ -23,7 +23,11 @@
     <h4>&nbsp;{{product[0]}}</h4>
     <img src="static/images/{{product[4]}}/{{product[3]}}" width="300" height="200" />
     <p>&nbsp;{{product[1]}}</p>
-    <p>&nbsp; Price:&nbsp;£{{product[2]}} X {{product[6]}}</p>
+    {% if product[6] !=None %}
+         <p>&nbsp; Price:&nbsp;£{{product[2]}} X {{product[6]}}</p>
+    {% else %}
+         <p>&nbsp; Price:&nbsp;£{{product[2]}} X 1</p>
+    {% endif %}
     <a href="/remove/{{product[5]}}" button type="button" class="btn btn-outline-success">Remove</a>
     <br>
 </div>
@@ -41,14 +45,18 @@
     <div class id="ordering">
         <h5>Items:<br></h5>
         {% for product in basket_items %}
-        <ul>
-            <li>&nbsp;{{product[0]}}&nbsp;:&nbsp;&nbsp;£{{product[2]}} X {{product[6]}}</li>
+        <ul>    
+            {% if product[6] !=None %}
+              <li>&nbsp;{{product[0]}}&nbsp;:&nbsp;&nbsp;£{{product[2]}} X {{product[6]}}</li>
+            {% else %}
+              <li>&nbsp;{{product[0]}}&nbsp;:&nbsp;&nbsp;£{{product[2]}} X 1</li>
+            
+            {% endif %}
         </ul>
         {% endfor %}
         <h5>Total Price: £{{total_price}}</h5>
         <br>
                 
-
         <form action='#' method="post">
         
         

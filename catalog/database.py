@@ -31,7 +31,8 @@ mycursor.execute("""INSERT INTO Item(type,name,description,price,picfile) VALUES
 ('computers','HP ProOne 440 G5 23.8" FHD Touchscreen AiO with i5','Windows 10 Pro 64,Intel® Core™ i5-9500T with Intel® UHD Graphics 630,8 GB memory,60.45 cm (23.8) diagonal FHD IPS widescreen WLED-backlit touch screen',898.99,'computer1.jpg'),
 ('computers','Acer Nitro 50 i7 8GB 1TB SSD GTX1660 Super Gaming PC','Intel Core i710700 processor,Octa core processor,Processor speed 2.9GHz with a burst speed of 4.8GHz,8GB RAM DDR4,1TB SSD storage,NVIDIA GTX 1660 Super with 6GB memory GDDR6',1199.99,'computer2.webp'),
 ('computers','Vibox I-18 Gaming PC with a Free Game','Windows 10,Quad Core Ryzen Processor,Radeon Vega 8 Graphics,8GB RAM,1TB Hard Drive',614.95,'computer3.jpg'),
-('computers','Acer Nitro 5 17.3in i5 8GB 512GB GTX1650 Gaming Laptop','Intel Core i5 10300H processor,Quad core processor,2.5GHz processor speed with a burst speed of 4.5GHz,8GB RAM DDR4,512GB SSD storage,Microsoft Windows 10',799.99,'computer4.webp')
+('computers','Acer Nitro 5 17.3in i5 8GB 512GB GTX1650 Gaming Laptop','Intel Core i5 10300H processor,Quad core processor,2.5GHz processor speed with a burst speed of 4.5GHz,8GB RAM DDR4,512GB SSD storage,Microsoft Windows 10',799.99,'computer4.webp'),
+('TV','Samsung 50 TU8000 HDR Smart 4K TV with Tizen OS','Crystal Display: lose yourself in crystal clear colour',479.00,'tv5.jpg')
 """)
 
 

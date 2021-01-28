@@ -10,7 +10,7 @@ def items_page(item_type):
     mycursor.execute("""SELECT * FROM Item WHERE type=%s """,(item_type,))
     items=mycursor.fetchall()
     
-    if request.method=="POST":
+    if request.method=="POST" and "user" in session:
         quantity = request.form.get("dropdown")
         session["quantity"] = quantity
         flash("Quantity added")
@@ -49,7 +49,7 @@ def button(id,item_type):
         session["itemid"] = ItemID
         session["userid"] = UserID
         quantity = session.get("quantity",None)
-
+        
         mycursor.execute("INSERT INTO BasketItems(UsersID,productID,quantity) VALUES (%s,%s,%s)",(*UserID,ItemID,quantity))
         db.commit()
     
@@ -75,8 +75,11 @@ def basket_page():
     mycursor.execute("""SELECT Item.name,Item.description,Item.price,Item.picfile,Item.type,Item.itemID,BasketItems.quantity AS q FROM Item INNER JOIN BasketItems ON Item.itemID = BasketItems.productID WHERE BasketItems.UsersID = '%s'"""%(id))
     basket_items = mycursor.fetchall()
     for item in basket_items:
-        total_price +=(item[2]*item[6])
-
+        try:
+            total_price +=(item[2]*item[6])
+        except:
+            total_price +=(item[2]*1)
+         
     db.commit()
     if request.method =="POST":
         credit_card_num = request.form.get("cn")
