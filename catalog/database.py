@@ -33,7 +33,8 @@ mycursor.execute("""INSERT INTO Item(type,name,description,price,picfile) VALUES
 ('computers','Vibox I-18 Gaming PC with a Free Game','Windows 10,Quad Core Ryzen Processor,Radeon Vega 8 Graphics,8GB RAM,1TB Hard Drive',614.95,'computer3.jpg'),
 ('computers','Acer Nitro 5 17.3in i5 8GB 512GB GTX1650 Gaming Laptop','Intel Core i5 10300H processor,Quad core processor,2.5GHz processor speed with a burst speed of 4.5GHz,8GB RAM DDR4,512GB SSD storage,Microsoft Windows 10',799.99,'computer4.webp'),
 ('TV','Samsung 50 TU8000 HDR Smart 4K TV with Tizen OS','Crystal Display: lose yourself in crystal clear colour',479.00,'tv5.jpg'),
-('Vaccumcleaners','Complete C3 Cat & Dog Pro PowerLine - SGEF3','Cylinder vacuum cleaner With turbobrush and odour filter; ideal for pet lovers.',300.00,'vaccum5.webp')
+('Vaccumcleaners','Complete C3 Cat & Dog Pro PowerLine - SGEF3','Cylinder vacuum cleaner With turbobrush and odour filter; ideal for pet lovers.',300.00,'vaccum5.webp'),
+('computers','Alienware m15 R3 Laptop','Intel Core 10th Generation i7-10750H Processor (6 Core, Up to 5.00GHz, 12MB Cache, 45W)Windows 10 Home16GB Memory. NVIDIA GeForce RTX 2070 SUPER 8GB GDDR6',1764.00,'computer5.webp')
 """)
 
 
