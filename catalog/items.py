@@ -51,6 +51,10 @@ def button(id,item_type):
         quantity = session.get("quantity",None)
         
         mycursor.execute("INSERT INTO BasketItems(UsersID,productID,quantity) VALUES (%s,%s,%s)",(*UserID,ItemID,quantity))
+
+        if "quantity" in session:
+            session.pop("quantity",None)
+
         db.commit()
     
         return redirect(url_for(".items_page",item_type=item_type))
