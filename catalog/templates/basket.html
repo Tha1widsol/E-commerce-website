@@ -56,34 +56,38 @@
         {% endfor %}
         <h5>Total Price: £{{total_price}}</h5>
         <br>
+        <div class id="centralizedtext">
+            <div class id="form">
+                <form action='#' method="post">
                 
-        <form action='#' method="post">
-        
-        
-        <p>Credit Card number:</p>
-            <p> <input type="text" placeholder="Credit card number" name="cn"></p>
-        
+                
+                <p>Credit Card number:</p>
+                    <p> <input type="text" placeholder="Credit card number" name="cn"></p>
+                
+                    
+                <p>Security number:</p>
+                    <p> <input type="text" placeholder="Security number" name="cn" /> </p>
+                
+                
+                <p>Address1:</p>
+                    <p> <input type="text" placeholder="Address" name="ad" />  </p>
+
+                    
+                <p>Address2:</p>
+                    <p> <input type="text" placeholder="Address2" name="ad" />  </p>
+                
+                <p>Postcode:</p>
+                    <p> <input type="text" placeholder="Postcode" name="ad" />  </p>
+                
+                </form>
+            </div>
             
-        <p>Security number:</p>
-            <p> <input type="text" placeholder="Security number" name="cn" /> </p>
-        
-        
-        <p>Address1:</p>
-            <p> <input type="text" placeholder="Address" name="ad" />  </p>
-
-              
-        <p>Address2:</p>
-            <p> <input type="text" placeholder="Address2" name="ad" />  </p>
-        
-        <p>Postcode:</p>
-            <p> <input type="text" placeholder="Postcode" name="ad" />  </p>
-        
-        </form>
-
-
         <button id="confirm" button type="button" class="btn btn-outline-success">Confirm</button>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <button id="cancel" button type="button" class="btn btn-outline-success">Cancel</button>
+        </div>
+
+
       
 </div>
 
@@ -117,13 +121,21 @@
         document.getElementById("popup-container").style.display="none";
     
     })
-
+    document.getElementById("blackout").addEventListener("click", function(){
+        document.getElementById("blackout").style.display="none";
+        document.getElementById("popup-container").style.display="none";
+    
+    })
+    
     document.getElementById("done").addEventListener("click", function(){
         document.getElementById("blackout").style.display="none";
         document.getElementById("popup-container").style.display="none";
         document.getElementById("ordered").style.display="none";
     
     })
+
+
+
 </script>
 
 {% endblock %}

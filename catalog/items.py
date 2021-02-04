@@ -13,7 +13,6 @@ def items_page(item_type):
     if request.method=="POST" and "user" in session:
         quantity = request.form.get("dropdown")
         session["quantity"] = quantity
-        flash("Quantity added")
 
     if item_type=="TV":
         tvtab="active"
