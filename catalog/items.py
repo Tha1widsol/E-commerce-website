@@ -13,26 +13,22 @@ def items_page(item_type):
     if request.method=="POST" and "user" in session:
         quantity = request.form.get("dropdown")
         session["quantity"] = quantity
-
-    if item_type=="TV":
-        tvtab="active"
-    else:
-        tvtab=None
-
-    if item_type=="Vaccumcleaners":
-        vaccumtab="active"
-    else:
-        vaccumtab=None
     
     if item_type=="computers":
         computerstab="active"
     else:
         computerstab=None
 
-    if "user" in session:
-        return render_template("items.html",page_name=item_type,database=items,tvtab=tvtab,vaccumtab=vaccumtab,computerstab=computerstab,foldername=item_type,user= session.get("user",None),items_in_basket = session.get("items_in_basket",None))
+           
+    if item_type=="laptops":
+        laptopstab="active"
     else:
-        return render_template("items.html",page_name=item_type,database=items,tvtab=tvtab,vaccumtab=vaccumtab,computerstab=computerstab,foldername=item_type,user=None)
+        laptopstab=None
+
+    if "user" in session:
+        return render_template("items.html",page_name=item_type,database=items,computerstab=computerstab,laptopstab= laptopstab,foldername=item_type,user= session.get("user",None),items_in_basket = session.get("items_in_basket",None))
+    else:
+        return render_template("items.html",page_name=item_type,database=items,computerstab=computerstab,laptopstab= laptopstab,foldername=item_type,user=None)
 
 
 @items.route("/button/<id>/<item_type>")
