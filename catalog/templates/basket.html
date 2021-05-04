@@ -8,7 +8,7 @@
 <div class id="blackout"></div>
 <div id="title">
     <div class="center">
-       <h2> <u>Welcome to the Basket page</u></h2>
+       <h2> <u>Welcome to the basket page</u></h2>
 
     </div>
 
@@ -17,7 +17,7 @@
 </div>
 
 {% for product in basket_items %}
-<div class id ="product-container">
+<div class ="product-container">
     <br>
     <br>
     <h4>&nbsp;{{product[0]}}</h4>
@@ -45,6 +45,7 @@
     <div class id="ordering">
         <h5>Items:<br></h5>
         {% for product in basket_items %}
+        
         <ul>    
             {% if product[6] !=None %}
               <li>&nbsp;{{product[0]}}&nbsp;:&nbsp;&nbsp;£{{product[2]}} X {{product[6]}}</li>
@@ -53,10 +54,11 @@
             
             {% endif %}
         </ul>
+            
         {% endfor %}
         <h5>Total Price: £{{total_price}}</h5>
         <br>
-        <div class id="centralizedtext">
+        <div class ="center">
             <div class id="form">
                 <form action='#' method="post">
                 
@@ -92,7 +94,7 @@
 </div>
 
     <div class id="ordered">
-        <div class id ="centralizedtext">
+        <div class="center">
             <h5>Thanks for ordering! Your parcel will come soon</h5>
             <a href="/done" button id="done" button type="button" class="btn btn-outline-success">Done</a>
         </div>

@@ -5,23 +5,23 @@
 
 {% block content %}
 
-
-
-
-<div id="title">
    <div class="center">
       <h2> <u>Welcome to the {{page_name}} page</u></h2>
 
    </div>
-</div>
+   <a href="{{page_name}}/3"  type="submit" value="submit" class="btn btn-outline-success">Default</a>
+   <a href="{{page_name}}/1"  type="submit" value="submit" class="btn btn-outline-success">Order from smallest price</a>
+   <a href="{{page_name}}/2"  type="submit" value="submit" class="btn btn-outline-success">Order from largest price</a>
+
 
 
  {% for product in database %}
  
-    <div class id ="product-container">
+    <div class ="product-container">
     <br>
     <br>
-      <h4>&nbsp;{{product[2]}}</h4>
+   
+      <a href = "/product" target="blank"><button style="border:none; background-color: whitesmoke;"><h5>{{product[2]}}</h5></button></a>
       <img src="static/images/{{foldername}}/{{product[5]}}" width="300" height="200" />
       <p>&nbsp;{{product[3]}}</p>
       <p>&nbsp; Price:&nbsp;£{{product[4]}}</p>
@@ -39,14 +39,12 @@
             <option>9</option>
             <option>10</option>
          </select>
-         <button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="submit">Enter</button>
+         <button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="submit" >Enter</button>
      </form>
       &nbsp;&nbsp;<a href="/button/{{product[0]}}/{{product[1]}}"  type="submit" value="submit" class="btn btn-outline-success">Add to basket</a>
          
    </div>
 
 {% endfor %}
-
-
 
 {% endblock %}

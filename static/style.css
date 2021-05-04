@@ -1,10 +1,5 @@
 
 
-#centralizedtext{
-    text-align: center;
-
-}
-
 input{
     margin: 20px auto;
     display: block;
@@ -13,23 +8,6 @@ input{
    
 }
 
-#home_tvs,#home_vaccums,#home_computers{
-    position: absolute;
-}
-
-#home_tvs{
-    left:370px;
-}
-
-#home_vaccums{
-    bottom:330px;
-    left:500px;
-}
-
-#home_computers{
-    right:420px;
-    top:230px;
-}
 
 #blackout{
     display: none; /* Hidden by default */
@@ -61,7 +39,7 @@ input{
     
 }
 
-#product-container{
+.product-container{
     height:500x;
     width: 700px;
     border-style: solid;

@@ -4,12 +4,29 @@ from catalog.database import *
 
 items = Blueprint("items",__name__,static_folder="static",template_folder="templates")
 
+def get_ascending_order(item_type):
+    mycursor.execute("""SELECT * FROM Item WHERE type=%s ORDER BY price """,(item_type,))
+    return mycursor.fetchall()
+
+def get_descending_order(item_type):
+     mycursor.execute("""SELECT * FROM Item WHERE type=%s ORDER BY price DESC """,(item_type,))
+     return mycursor.fetchall()
+
+def get_featured_order(item_type):
+    mycursor.execute("""SELECT * FROM Item WHERE type=%s """,(item_type,))
+    return mycursor.fetchall()
 
 @items.route("/<item_type>",methods=["POST","GET"])
 def items_page(item_type):
-    mycursor.execute("""SELECT * FROM Item WHERE type=%s """,(item_type,))
-    items=mycursor.fetchall()
-    
+    if session.get("order",None)=="1":
+        items=get_ascending_order(item_type)
+
+    elif session.get("order",None)=="2":
+        items=get_descending_order(item_type)
+
+    else:
+        items= get_featured_order(item_type)
+
     if request.method=="POST" and "user" in session:
         quantity = request.form.get("dropdown")
         session["quantity"] = quantity
@@ -24,16 +41,20 @@ def items_page(item_type):
         laptopstab="active"
     else:
         laptopstab=None
+    session["item_type"] = item_type
 
     if "user" in session:
-        return render_template("items.html",page_name=item_type,database=items,computerstab=computerstab,laptopstab= laptopstab,foldername=item_type,user= session.get("user",None),items_in_basket = session.get("items_in_basket",None))
+        return render_template("items.html",page_name=item_type,database=items,computerstab=computerstab,laptopstab= laptopstab,foldername=item_type,user= session.get("user",None))
     else:
         return render_template("items.html",page_name=item_type,database=items,computerstab=computerstab,laptopstab= laptopstab,foldername=item_type,user=None)
 
+@items.route("<item_type>/<change>")
+def order(item_type,change):
+    session["order"]= change
+    return redirect(url_for(".items_page",item_type=item_type))
 
 @items.route("/button/<id>/<item_type>")
 def button(id,item_type):
-    items_in_basket=0
     if "user" in session:
         flash("Item added to basket")
         
@@ -48,10 +69,7 @@ def button(id,item_type):
         
         mycursor.execute("INSERT INTO BasketItems(UsersID,productID,quantity) VALUES (%s,%s,%s)",(*UserID,ItemID,quantity))
         mycursor.execute("SELECT * FROM BasketItems")
-        for item in mycursor.fetchall():
-                items_in_basket+=1
-
-        session["items_in_basket"] = items_in_basket
+    
         if "quantity" in session:
             session.pop("quantity",None)
 
