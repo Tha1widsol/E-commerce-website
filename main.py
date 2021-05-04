@@ -7,8 +7,8 @@ from admin.accounts import *
 
 app = Flask(__name__)
 
-app.register_blueprint(items,url_prefix="/") # We only go on second blueprint if we see "/admin"
-#It finds "/" then adds "admin" = "/admin" 
+app.register_blueprint(items,url_prefix="/") 
+
 app.register_blueprint(home,url_prefix="/")
 app.register_blueprint(accounts,url_prefix="/")
 app.config['SECRET_KEY'] = "helsgddo"
