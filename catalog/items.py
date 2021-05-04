@@ -16,42 +16,49 @@ def get_featured_order(item_type):
     mycursor.execute("""SELECT * FROM Item WHERE type=%s """,(item_type,))
     return mycursor.fetchall()
 
+
 @items.route("/<item_type>",methods=["POST","GET"])
 def items_page(item_type):
-    if session.get("order",None)=="1":
-        items=get_ascending_order(item_type)
+    if item_type=="laptops" or item_type=="computers":
+        if session.get("order",None)=="1":
+            items=get_ascending_order(item_type)
 
-    elif session.get("order",None)=="2":
-        items=get_descending_order(item_type)
+        elif session.get("order",None)=="2":
+            items=get_descending_order(item_type)
 
+        else:
+            items= get_featured_order(item_type)
+        
+
+        if item_type=="computers":
+            computerstab="active"
+        else:
+            computerstab=None
+
+            
+        if item_type=="laptops":
+            laptopstab="active"
+        else:
+            laptopstab=None
+
+        if "user" in session:
+            return render_template("items.html",page_name=item_type,database=items,computerstab=computerstab,laptopstab= laptopstab,foldername=item_type,user= session.get("user",None))
+        else:
+            return render_template("items.html",page_name=item_type,database=items,computerstab=computerstab,laptopstab= laptopstab,foldername=item_type,user=None)
     else:
-        items= get_featured_order(item_type)
+        if request.method=="POST" and "user" in session:
+            quantity = request.form.get("dropdown")
+            session["quantity"] = quantity
+        mycursor.execute("""SELECT * FROM Item WHERE itemID= '%s' """%(item_type))
+        item = mycursor.fetchone()
+        return render_template("product.html",item=item,foldername=item[1],user= session.get("user",None))
 
-    if request.method=="POST" and "user" in session:
-        quantity = request.form.get("dropdown")
-        session["quantity"] = quantity
-    
-    if item_type=="computers":
-        computerstab="active"
-    else:
-        computerstab=None
-
-           
-    if item_type=="laptops":
-        laptopstab="active"
-    else:
-        laptopstab=None
-    session["item_type"] = item_type
-
-    if "user" in session:
-        return render_template("items.html",page_name=item_type,database=items,computerstab=computerstab,laptopstab= laptopstab,foldername=item_type,user= session.get("user",None))
-    else:
-        return render_template("items.html",page_name=item_type,database=items,computerstab=computerstab,laptopstab= laptopstab,foldername=item_type,user=None)
 
 @items.route("<item_type>/<change>")
 def order(item_type,change):
     session["order"]= change
     return redirect(url_for(".items_page",item_type=item_type))
+
 
 @items.route("/button/<id>/<item_type>")
 def button(id,item_type):

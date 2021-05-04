@@ -21,28 +21,15 @@
     <br>
     <br>
    
-      <a href = "/product" target="blank"><button style="border:none; background-color: whitesmoke;"><h5>{{product[2]}}</h5></button></a>
-      <img src="static/images/{{foldername}}/{{product[5]}}" width="300" height="200" />
-      <p>&nbsp;{{product[3]}}</p>
+      <a href = "{{product[0]}}" target="blank"><button style="border:none; background-color: whitesmoke;"><h5>{{product[2]}}</h5></button></a>
+      <a href = "{{product[0]}}"  target="blank"><img src="static/images/{{foldername}}/{{product[5]}}" width="300" height="200" /></a>
       <p>&nbsp; Price:&nbsp;£{{product[4]}}</p>
       <form action='#' method="post">
          <hr class="mt-0-mb-4">
-         <h6>Quantity:</h6>
-         <select id="dropdown" name="dropdown">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6</option>
-            <option>8</option>
-            <option>9</option>
-            <option>10</option>
-         </select>
-         <button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="submit" >Enter</button>
      </form>
-      &nbsp;&nbsp;<a href="/button/{{product[0]}}/{{product[1]}}"  type="submit" value="submit" class="btn btn-outline-success">Add to basket</a>
-         
+   
+   <a href="/button/{{product[0]}}/{{product[1]}}"  type="submit" value="submit" class="btn btn-outline-success">Add to basket</a>
+   <a href="{{product[0]}}"  target="blank" type="submit" value="submit" class="btn btn-outline-success">View more info</a>
    </div>
 
 {% endfor %}

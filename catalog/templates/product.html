@@ -4,5 +4,32 @@
 {% endblock %}
 
 {% block content %}
+<div class ="product-container"> 
+    <h5>{{item[2]}}</h5>
+    <img src="static/images/{{foldername}}/{{item[5]}}" width="300" height="200" />
+
+    <p>&nbsp;{{item[3]}}</p>
+  
+    <p>&nbsp; Price:&nbsp;£{{item[4]}}</p>
+    <form action='#' method="post">
+       <hr class="mt-0-mb-4">
+       <h6>Quantity:</h6>
+       <select id="dropdown" name="dropdown">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+          <option>8</option>
+          <option>9</option>
+          <option>10</option>
+       </select>
+       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="submit" >Enter</button>
+   </form>
+    &nbsp;&nbsp;<a href="/button/{{item[0]}}/{{item[1]}}"  type="submit" value="submit" class="btn btn-outline-success">Add to basket</a>
+       
+ </div>
+
 
 {% endblock %}
