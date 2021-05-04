@@ -12,6 +12,7 @@ mycursor = db.cursor(buffered=True)
 
 #mycursor.execute("CREATE DATABASE items")
 
+mycursor.execute("CREATE DATABASE items")
 
 
 #mycursor.execute("DROP TABLE IF EXISTS BasketItems;")
@@ -47,7 +48,6 @@ mycursor.execute("""INSERT INTO Item(type,name,description,price,picfile) VALUES
 #mycursor.execute("ALTER TABLE BasketItems ADD FOREIGN KEY(productID) REFERENCES Item(itemID)")
 
 def setup():
-    mycursor.execute("CREATE DATABASE items")
     mycursor.execute("CREATE TABLE BasketItems(ID int PRIMARY KEY AUTO_INCREMENT,UsersID int,productID int DEFAULT 0,quantity int DEFAULT 1)")
     mycursor.execute("ALTER TABLE BasketItems ADD FOREIGN KEY(productID) REFERENCES Item(itemID)")
     mycursor.execute("CREATE TABLE IF NOT EXISTS Users (ID int PRIMARY KEY AUTO_INCREMENT,email VARCHAR(100),username VARCHAR(1000),password VARCHAR(10000))")
