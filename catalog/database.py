@@ -12,7 +12,7 @@ mycursor = db.cursor(buffered=True)
 
 #mycursor.execute("CREATE DATABASE items")
 
-mycursor.execute("CREATE DATABASE items")
+#mycursor.execute("CREATE DATABASE items")
 
 
 #mycursor.execute("DROP TABLE IF EXISTS BasketItems;")
@@ -56,4 +56,4 @@ def setup():
     db.commit()
 
 
-setup()
+#setup()
