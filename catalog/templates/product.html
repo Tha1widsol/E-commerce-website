@@ -5,12 +5,12 @@
 
 {% block content %}
 <div class ="product-container"> 
-    <h5>{{item[2]}}</h5>
-    <img src="static/images/{{foldername}}/{{item[5]}}" width="300" height="200" />
+    <h5>{{item.name}}</h5>
+    <img src="static/images/{{item.Type}}/{{item.picfile}}" width="300" height="200" />
 
-    <p>&nbsp;{{item[3]}}</p>
+    <p>&nbsp;{{item.description}}</p>
   
-    <p>&nbsp; Price:&nbsp;£{{item[4]}}</p>
+    <p>&nbsp; Price:&nbsp;£{{item.price}}</p>
     <form action='#' method="post">
        <hr class="mt-0-mb-4">
        <h6>Quantity:</h6>
@@ -27,7 +27,7 @@
        </select>
        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="submit" >Enter</button>
    </form>
-    &nbsp;&nbsp;<a href="/button/{{item[0]}}/{{item[1]}}"  type="submit" value="submit" class="btn btn-outline-success">Add to basket</a>
+    &nbsp;&nbsp;<a href="/button/{{item.id}}/{{item.Type}}"  type="submit" value="submit" class="btn btn-outline-success">Add to basket</a>
        
  </div>
 

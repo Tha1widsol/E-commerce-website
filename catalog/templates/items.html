@@ -21,15 +21,16 @@
     <br>
     <br>
    
-      <a href = "{{product[0]}}" target="blank"><button style="border:none; background-color: whitesmoke;"><h5>{{product[2]}}</h5></button></a>
-      <a href = "{{product[0]}}"  target="blank"><img src="static/images/{{foldername}}/{{product[5]}}" width="300" height="200" /></a>
-      <p>&nbsp; Price:&nbsp;£{{product[4]}}</p>
+      <a href = "{{product.id}}" target="blank"><button style="border:none; background-color: whitesmoke;"><h5>{{product.name}}</h5></button></a>
+      <a href = "{{product.id}}"  target="blank"><img src="static/images/{{product.Type}}/{{product.picfile}}" width="300" height="200" /></a>
+ 
+      <p>&nbsp; Price:&nbsp;£{{product.price}}</p>
       <form action='#' method="post">
          <hr class="mt-0-mb-4">
      </form>
    
-   <a href="/button/{{product[0]}}/{{product[1]}}"  type="submit" value="submit" class="btn btn-outline-success">Add to basket</a>
-   <a href="{{product[0]}}"  target="blank" type="submit" value="submit" class="btn btn-outline-success">View more info</a>
+   <a href="/button/{{product.id}}/{{product.Type}}"  type="submit" value="submit" class="btn btn-outline-success">Add to basket</a>
+   <a href="{{product.id}}"  target="blank" type="submit" value="submit" class="btn btn-outline-success">View more info</a>
    </div>
 
 {% endfor %}

@@ -2,33 +2,29 @@ from flask import Blueprint,render_template,request,session,flash,url_for,redire
 import os
 from catalog.database import *
 
+
 items = Blueprint("items",__name__,static_folder="static",template_folder="templates")
 
 def get_ascending_order(item_type):
-    mycursor.execute("""SELECT * FROM Item WHERE type=%s ORDER BY price """,(item_type,))
-    return mycursor.fetchall()
+    return Item.query.filter_by(Type=item_type).order_by("price")
 
 def get_descending_order(item_type):
-     mycursor.execute("""SELECT * FROM Item WHERE type=%s ORDER BY price DESC """,(item_type,))
-     return mycursor.fetchall()
+     return Item.query.filter_by(Type=item_type).order_by(desc("price"))
 
-def get_featured_order(item_type):
-    mycursor.execute("""SELECT * FROM Item WHERE type=%s """,(item_type,))
-    return mycursor.fetchall()
-
+def get_items(item_type):
+    return Item.query.filter_by(Type=item_type)
 
 @items.route("/<item_type>",methods=["POST","GET"])
 def items_page(item_type):
     if item_type=="laptops" or item_type=="computers":
         if session.get("order",None)=="1":
             items=get_ascending_order(item_type)
-
+            
         elif session.get("order",None)=="2":
             items=get_descending_order(item_type)
 
         else:
-            items= get_featured_order(item_type)
-        
+            items= get_items(item_type)
 
         if item_type=="computers":
             computerstab="active"
@@ -42,16 +38,16 @@ def items_page(item_type):
             laptopstab=None
 
         if "user" in session:
-            return render_template("items.html",page_name=item_type,database=items,computerstab=computerstab,laptopstab= laptopstab,foldername=item_type,user= session.get("user",None))
+            return render_template("items.html",page_name=item_type,database=items,computerstab=computerstab,laptopstab= laptopstab,user= session.get("user",None))
         else:
-            return render_template("items.html",page_name=item_type,database=items,computerstab=computerstab,laptopstab= laptopstab,foldername=item_type,user=None)
+            return render_template("items.html",page_name=item_type,database=items,computerstab=computerstab,laptopstab= laptopstab,user=None)
     else:
         if request.method=="POST" and "user" in session:
             quantity = request.form.get("dropdown")
             session["quantity"] = quantity
-        mycursor.execute("""SELECT * FROM Item WHERE itemID= '%s' """%(item_type))
-        item = mycursor.fetchone()
-        return render_template("product.html",item=item,foldername=item[1],user= session.get("user",None))
+
+        item = Item.query.filter_by(id=item_type).first()
+        return render_template("product.html",item=item,user= session.get("user",None))
 
 
 @items.route("<item_type>/<change>")
