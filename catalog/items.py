@@ -55,28 +55,22 @@ def order(item_type,change):
     session["order"]= change
     return redirect(url_for(".items_page",item_type=item_type))
 
-
 @items.route("/button/<id>/<item_type>")
-def button(id,item_type):
+def add_to_basket(id,item_type):
     if "user" in session:
         flash("Item added to basket")
-        
-        username = session.get("user",None)
-        mycursor.execute("""SELECT ID FROM Users WHERE username= '%s'""" %(username))
-        UserID = mycursor.fetchone()
-        ItemID = id
+        email = session.get("user",None)
+        UserID = Users.query.filter_by(email = email).first()
 
-        session["itemid"] = ItemID
-        session["userid"] = UserID
         quantity = session.get("quantity",None)
-        
-        mycursor.execute("INSERT INTO BasketItems(UsersID,productID,quantity) VALUES (%s,%s,%s)",(*UserID,ItemID,quantity))
-        mycursor.execute("SELECT * FROM BasketItems")
-    
+
+        basket = Basket.query.filter_by(user_id=UserID.id).first()
+        basket_item = BasketItems(basket_id=basket.id, product_id=id, quantity=quantity)
+        db.session.add(basket_item)
+        db.session.commit()
+
         if "quantity" in session:
             session.pop("quantity",None)
-
-        db.commit()
 
         return redirect(url_for(".items_page",item_type=item_type))
         
@@ -85,47 +79,60 @@ def button(id,item_type):
         flash("Please make an account or login before purchasing")
         return redirect(url_for("accounts.register_page"))
 
+
       
 
-@items.route("/basket",methods=["POST","GET"])
-
+@items.route("/basket")
 def basket_page():
-    total_price = 0
-    username = session.get("user",None)
-    get_id = """SELECT ID FROM Users WHERE username = '%s' """%(username)
-    mycursor.execute(get_id)
-    id = mycursor.fetchone()
+    subtotal = 0 
+    email = session.get("user",None)
+    User = Users.query.filter_by(email = email).first()
+    products = Item.query.all()
+    shoppingDict = {}
+    items = BasketItems.query.filter_by(basket_id=User.id).all()
 
-    session["userid"] = id
-    mycursor.execute("""SELECT Item.name,Item.description,Item.price,Item.picfile,Item.type,Item.itemID,BasketItems.quantity AS q FROM Item INNER JOIN BasketItems ON Item.itemID = BasketItems.productID WHERE BasketItems.UsersID = '%s'"""%(id))
-    basket_items = mycursor.fetchall()
-    for item in basket_items:
-        try:
-            total_price +=(item[2]*item[6])
-        except:
-            total_price +=(item[2]*1)
-         
-    db.commit()
+    for item in items:
+        product = Item.query.filter_by(id=item.product_id).first()
+        if product.id in shoppingDict.keys():
+            list = shoppingDict[product.id]
+            quant = int(list[1]) + item.quantity
+            subtotal = int(quant * product.price)
+            shoppingDict[product.id] = [product.name, quant, product.price, subtotal, product.picfile, item.id,product.description,product.Type]
+    
+        else:
+            subtotal = int(item.quantity * product.price)
+            shoppingDict[product.id] = [product.name, item.quantity, product.price, subtotal, product.picfile, item.id,product.description,product.Type]
+  
+
     if request.method =="POST":
         credit_card_num = request.form.get("cn")
         address = request.form.get("ad")
 
-    return render_template("basket.html",basket_items = basket_items,user=session.get("user",None),total_price = round(total_price,2))
+
+    return render_template("basket.html", products=products,cart=shoppingDict,subtotal=subtotal,user=session.get("user",None),basket_tab = "active")
         
 
 @items.route("/done")
 def done():
-     mycursor.execute("TRUNCATE TABLE BasketItems")
-     db.commit()
-     if "items_in_basket" in session:
-          session.pop("items_in_basket",None)
-     return redirect(url_for("home.home_page"))
+    email = session.get("user",None)
+    User = Users.query.filter_by(email = email).first()
+    clear_basket(User.id)
+    return redirect(url_for("home.home_page"))
 
-@items.route("/remove/<id>")
-def remove(id):
-    userid = session.get("userid",None)
-    mycursor.execute("""DELETE FROM BasketItems WHERE productID = (%s) AND UsersID = (%s)""",(id,*userid))
-    flash("Item removed from basket")
+@items.route("/remove/<product_id>")
+def remove(product_id):
+    email = session.get("user",None)
+    User = Users.query.filter_by(email = email).first()
+    try:
+        basket_product = BasketItems.query.filter_by(id=product_id, basket_id=User.id).first()
+        db.session.delete(basket_product)
+        db.session.commit()
+        flash("Item removed from basket")
+
+    except:
+        clear_basket(User.id)
+        flash("All items are cleared from basket")
+
     return redirect(url_for(".basket_page"))
 
 
