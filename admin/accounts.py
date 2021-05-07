@@ -23,6 +23,9 @@ def register_page():
                             mumbojumbo = bcrypt.hashpw(password,bcrypt.gensalt())
                             new_user = Users(email=email,password = mumbojumbo)
                             db.session.add(new_user)
+                            new_user_id = Users.query.filter_by(email = email).first()
+                            new_basket = Basket(user_id=new_user_id.id)
+                            db.session.add(new_basket)
                             db.session.commit()
                             session["user"] = email
                             
