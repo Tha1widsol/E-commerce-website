@@ -16,26 +16,31 @@
 
 </div>
 
-{% for product in basket_items %}
+{% for key, value in cart.items() %}
 <div class ="product-container">
     <br>
     <br>
-    <h4>&nbsp;{{product[0]}}</h4>
-    <img src="static/images/{{product[4]}}/{{product[3]}}" width="300" height="200" />
-    <p>&nbsp;{{product[1]}}</p>
-    {% if product[6] !=None %}
-         <p>&nbsp; Price:&nbsp;£{{product[2]}} X {{product[6]}}</p>
+    <h4>&nbsp;{{ value[0] }}</h4>
+    <img src="static/images/{{value[7]}}/{{value[4]}}" width="300" height="200" />
+    <p>&nbsp;{{value[6]}}</p>
+    {% if value[1] !=None %}
+         <p>&nbsp; Price:&nbsp;£{{ value[2] }} X {{ value[1] }}</p>
     {% else %}
-         <p>&nbsp; Price:&nbsp;£{{product[2]}} X 1</p>
+         <p>&nbsp; Price:&nbsp;£{{ value[2] }} X 1</p>
     {% endif %}
-    <a href="/remove/{{product[5]}}" button type="button" class="btn btn-outline-success">Remove</a>
+    <a href="/remove/{{value[5]}}" button type="button" class="btn btn-outline-success">Remove</a>
+
+   
     <br>
 </div>
 {% endfor %}
 
-{% if total_price>0 %}
+{% if subtotal >0 %}
 <br>
-<h4>Total Price: £{{total_price}}&nbsp;&nbsp;<button id="checkout" button type="button" class="btn btn-outline-success">Checkout</button> </h4> 
+<a href="/remove/all" button type="button" class="btn btn-outline-success">Remove all</a>
+<br>
+<br>
+<h4>Total Price: £{{subtotal}}&nbsp;&nbsp;<button id="checkout" button type="button" class="btn btn-outline-success">Checkout</button> </h4> 
 {% else %}
 <h6>No items added to basket</h6>
 {% endif %}
@@ -44,19 +49,20 @@
 <div class id="popup-container">
     <div class id="ordering">
         <h5>Items:<br></h5>
-        {% for product in basket_items %}
+        {% for key, value in cart.items() %}
         
         <ul>    
-            {% if product[6] !=None %}
-              <li>&nbsp;{{product[0]}}&nbsp;:&nbsp;&nbsp;£{{product[2]}} X {{product[6]}}</li>
+            {% if value[6] !=None %}
+              <li>&nbsp;{{value[0]}}&nbsp;:&nbsp;&nbsp;£{{value[2]}} X {{value[1]}}</li>
             {% else %}
-              <li>&nbsp;{{product[0]}}&nbsp;:&nbsp;&nbsp;£{{product[2]}} X 1</li>
+              <li>&nbsp;{{value[0]}}&nbsp;:&nbsp;&nbsp;£{{value[2]}} X 1</li>
             
             {% endif %}
         </ul>
             
         {% endfor %}
-        <h5>Total Price: £{{total_price}}</h5>
+   
+        <h5>Total Price: £{{subtotal}}</h5>
         <br>
         <div class ="center">
             <div class id="form">
