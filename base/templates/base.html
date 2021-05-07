@@ -19,18 +19,17 @@
                 <a class="nav-item nav-link {{computerstab}}" href="/computers">Desktops</a>
                 <a class="nav-item nav-link {{laptopstab}}" href="/laptops">Laptops</a>
                 {% if user!=None %}
-                  <a class="nav-item nav-link" href="logout">Logout</a>
-                  
-                     <a href="/basket"> <img src="static/images/basket.jpg"  width="50" height="40" button type="button" ></a>
-                  
+                <a class="nav-item nav-link  {{basket_tab}}" href="/basket">Basket</a>
                       
+                <a class="nav-item nav-link" href="logout">Logout</a>
+                  
+                
                   &nbsp;&nbsp;&nbsp;
                  <a class="nav-item nav-link active">Logged in as, {{user}}</a>
                 {% else %}
                 <a class="nav-item nav-link {{registertab}}" href="register">Register</a>
                 <a class="nav-item nav-link {{logintab}}" href="login">Sign in</a>
                 {% endif %}
-               
 
             </div>
         </div>
