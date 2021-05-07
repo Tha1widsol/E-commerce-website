@@ -4,10 +4,6 @@ from catalog.items import *
 from admin.accounts import *
 from catalog.database import *
 
-
-
-
-
 app.register_blueprint(items,url_prefix="/") 
 
 app.register_blueprint(home,url_prefix="/")
