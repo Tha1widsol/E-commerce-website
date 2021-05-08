@@ -53,6 +53,26 @@ def clear_basket(UserID):
 			db.session.delete(item)
 	 db.session.commit()
 
+def clear_wishlist(UserID):
+	 wishlist_items = WishListItems.query.filter_by(wishlist_id=UserID).all()
+	 for item in wishlist_items:
+			db.session.delete(item)
+	 db.session.commit()
+
+class wishlist(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+	items = db.relationship('WishListItems', backref='wishlist', lazy=True)
+
+
+class WishListItems(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	wishlist_id = db.Column(db.Integer, db.ForeignKey('wishlist.id'))
+	product_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False,unique=True)
+
+
+db.create_all()
+
 Item.query.delete()
 
 db.session.add(Item(Type='computers',name='HP ProOne 440 G5 23.8" FHD Touchscreen AiO with i',description='Windows 10 Pro 64,Intel® Core™ i5-9500T with Intel® UHD Graphics 630,8 GB memory,60.45 cm (23.8) diagonal FHD IPS widescreen WLED-backlit touch screen',price='898.99',picfile='computer1.jpg'))
@@ -68,5 +88,3 @@ db.session.add(Item(Type='laptops',name='Asus TUF Gaming Dash F15 Core i7-11370H
 
 db.session.commit()
 
-
-db.create_all()

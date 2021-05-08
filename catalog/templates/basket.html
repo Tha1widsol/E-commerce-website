@@ -28,7 +28,7 @@
     {% else %}
          <p>&nbsp; Price:&nbsp;£{{ value[2] }} X 1</p>
     {% endif %}
-    <a href="/remove/{{value[5]}}" button type="button" class="btn btn-outline-success">Remove</a>
+    <a href="/basket/{{value[5]}}" button type="button" class="btn btn-outline-success">Remove</a>
 
    
     <br>
@@ -37,7 +37,7 @@
 
 {% if subtotal >0 %}
 <br>
-<a href="/remove/all" button type="button" class="btn btn-outline-success">Remove all</a>
+<a href="/basket/all" button type="button" class="btn btn-outline-success">Remove all</a>
 <br>
 <br>
 <h4>Total Price: £{{subtotal}}&nbsp;&nbsp;<button id="checkout" button type="button" class="btn btn-outline-success">Checkout</button> </h4> 
