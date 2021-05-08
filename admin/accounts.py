@@ -23,8 +23,10 @@ def register_page():
                             mumbojumbo = bcrypt.hashpw(password,bcrypt.gensalt())
                             new_user = Users(email=email,password = mumbojumbo)
                             db.session.add(new_user)
-                            new_user_id = Users.query.filter_by(email = email).first()
-                            new_basket = Basket(user_id=new_user_id.id)
+                            new_user = Users.query.filter_by(email = email).first()
+                            new_basket = Basket(user_id=new_user.id)
+                            new_wishlist = wishlist(user_id= new_user.id)
+                            db.session.add(new_wishlist)
                             db.session.add(new_basket)
                             db.session.commit()
                             session["user"] = email
@@ -35,7 +37,7 @@ def register_page():
                               return redirect(url_for(".register_page"))
 
                         flash("Account successfully created")
-                        return redirect(url_for("home.home_page"))
+                        return redirect(url_for("items.home_page"))
                 
                 else:
                     flash("Passwords don't match. Please try again","info")
@@ -64,7 +66,7 @@ def login_page():
                     if bcrypt.checkpw(password,i.password):
                         session["user"] = email
                         flash("Logged in successfully")
-                        return redirect(url_for("home.home_page"))
+                        return redirect(url_for("items.home_page"))
                 
             flash("Username or password is incorrect")
             return redirect(url_for(".login_page"))
@@ -80,8 +82,8 @@ def login_page():
 def logout():
     if "user" in session:
          session.pop("user",None)
-         return redirect(url_for("home.home_page"))
+         return redirect(url_for("items.home_page"))
     
     else:
         flash("You are not logged in")
-        return redirect(url_for("home.home_page"))
+        return redirect(url_for("items.home_page"))

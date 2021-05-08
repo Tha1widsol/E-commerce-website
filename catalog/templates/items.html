@@ -1,38 +1,66 @@
 ﻿{% extends "base.html" %}
 {% block title%}
- {{page_name}} Page
+ Home page
 {% endblock %}
 
 {% block content %}
 
    <div class="center">
-      <h2> <u>Welcome to the {{page_name}} page</u></h2>
+      <h2> <u>Welcome to the home page</u></h2>
 
    </div>
-   <a href="{{page_name}}/3"  type="submit" value="submit" class="btn btn-outline-success">Default</a>
-   <a href="{{page_name}}/1"  type="submit" value="submit" class="btn btn-outline-success">Order from smallest price</a>
-   <a href="{{page_name}}/2"  type="submit" value="submit" class="btn btn-outline-success">Order from largest price</a>
 
+   <br>
+   <a href="/order/default"  type="submit" value="submit" class="btn btn-outline-success">Default</a>
+   <a href="/order/asc"  type="submit" value="submit" class="btn btn-outline-success">Order from smallest price</a>
+   <a href="/order/desc"  type="submit" value="submit" class="btn btn-outline-success">Order from largest price</a>
 
+<br>
+<hr class="mt-0-mb-4">
 
- {% for product in database %}
- 
+<h3 style="position:relative; left:10px;"><u>Desktops</u></h3>
+ {% for product in desktops %}
     <div class ="product-container">
     <br>
     <br>
    
-      <a href = "{{product.id}}" target="blank"><button style="border:none; background-color: whitesmoke;"><h5>{{product.name}}</h5></button></a>
-      <a href = "{{product.id}}"  target="blank"><img src="static/images/{{product.Type}}/{{product.picfile}}" width="300" height="200" /></a>
+      <a href = "/{{product.id}}" target="blank"><button style="border:none; background-color: whitesmoke;"><h5>{{product.name}}</h5></button></a>
+      <a href = "/{{product.id}}"  target="blank"><img src="static/images/{{product.Type}}/{{product.picfile}}" width="300" height="200" /></a>
  
       <p>&nbsp; Price:&nbsp;£{{product.price}}</p>
       <form action='#' method="post">
-         <hr class="mt-0-mb-4">
+         
      </form>
-   
+     <hr class="mt-0-mb-4">
    <a href="/button/{{product.id}}/{{product.Type}}"  type="submit" value="submit" class="btn btn-outline-success">Add to basket</a>
-   <a href="{{product.id}}"  target="blank" type="submit" value="submit" class="btn btn-outline-success">View more info</a>
+   <a href="/wishlist/{{product.id}}/{{product.Type}}"  type="submit" value="submit" class="btn btn-outline-success">Add to wishlist</a>
+   <a href="/{{product.id}}"  target="blank" type="submit" value="submit" class="btn btn-outline-success">View more info</a>
+   
    </div>
+   <hr class="mt-0-mb-4">
+{% endfor %}
 
+<h3 style="position:relative; left:10px;"><u>Laptops</u></h3>
+
+{% for product in laptops %}
+<div class ="product-container">
+   <br>
+   <br>
+  
+     <a href = "{{product.id}}" target="blank"><button style="border:none; background-color: whitesmoke;"><h5>{{product.name}}</h5></button></a>
+     <a href = "{{product.id}}"  target="blank"><img src="static/images/{{product.Type}}/{{product.picfile}}" width="300" height="200" /></a>
+
+     <p>&nbsp; Price:&nbsp;£{{product.price}}</p>
+     <form action='#' method="post">
+        
+    </form>
+    <hr class="mt-0-mb-4">
+  <a href="/button/{{product.id}}/{{product.Type}}"  type="submit" value="submit" class="btn btn-outline-success">Add to basket</a>
+  <a href="/wishlist/{{product.id}}/{{product.Type}}"  type="submit" value="submit" class="btn btn-outline-success">Add to wishlist</a>
+  <a href="{{product.id}}"  target="blank" type="submit" value="submit" class="btn btn-outline-success">View more info</a>
+  </div>
+
+<hr class="mt-0-mb-4">
 {% endfor %}
 
 {% endblock %}
