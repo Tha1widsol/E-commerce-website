@@ -21,14 +21,15 @@
     <br>
     <br>
     <h4>&nbsp;{{ value[0] }}</h4>
-    <img src="static/images/{{value[7]}}/{{value[4]}}" width="300" height="200" />
-    <p>&nbsp;{{value[6]}}</p>
+    <img src="static/images/{{value[6]}}/{{value[3]}}" width="300" height="200" />
     {% if value[1] !=None %}
          <p>&nbsp; Price:&nbsp;£{{ value[2] }} X {{ value[1] }}</p>
     {% else %}
          <p>&nbsp; Price:&nbsp;£{{ value[2] }} X 1</p>
     {% endif %}
-    <a href="/basket/{{value[5]}}" button type="button" class="btn btn-outline-success">Remove</a>
+    <hr class="mt-0-mb-4">
+    <a href="/{{value[4]}}"  target="blank" type="submit" value="submit" class="btn btn-outline-success">View more info</a>
+    <a href="/basket/{{value[4]}}" button type="button" class="btn btn-outline-success">Remove</a>
 
    
     <br>
@@ -42,7 +43,7 @@
 <br>
 <h4>Total Price: £{{subtotal}}&nbsp;&nbsp;<button id="checkout" button type="button" class="btn btn-outline-success">Checkout</button> </h4> 
 {% else %}
-<h6>No items added to basket</h6>
+<h6>No items in basket</h6>
 {% endif %}
 
 
