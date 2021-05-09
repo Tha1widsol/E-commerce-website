@@ -5,25 +5,43 @@ from catalog.database import *
 
 items = Blueprint("items",__name__,static_folder="static",template_folder="templates")
     
-@items.route("/")
-@items.route("/home")
+@items.route("/",methods=["POST","GET"])
+@items.route("/home",methods=["POST","GET"])
 def home_page():
+    no_items = ""
+    search_value=session.get("search",None)
+    if search_value==None:
+        search_value=""
+        
     if session.get("order",None)=="desc":
-       desktops =  Item.query.filter_by(Type="computers").order_by(desc("price"))
-       laptops =   Item.query.filter_by(Type="laptops").order_by(desc("price"))
+       desktops =  Item.query.filter(Item.name.contains(search_value),Item.Type.contains("computers")).order_by(desc("price")).all()
+       laptops =   Item.query.filter(Item.name.contains(search_value),Item.Type.contains("laptops")).order_by(desc("price")).all()
     
     elif session.get("order",None)=="asc":
-         desktops =  Item.query.filter_by(Type="computers").order_by("price")
-         laptops =   Item.query.filter_by(Type="laptops").order_by("price")
+         desktops =  Item.query.filter(Item.name.contains(search_value),Item.Type.contains("computers")).order_by("price").all()
+         laptops =   Item.query.filter(Item.name.contains(search_value),Item.Type.contains("laptops")).order_by("price").all()
     
     else:
+        if "search" in session:
+            session.pop("search")
+
         desktops =  Item.query.filter_by(Type="computers")
         laptops =  Item.query.filter_by(Type="laptops")
 
+    if request.method=="POST":
+        form = request.form 
+        search_value = form['search_string']
+        session["search"] = search_value
+        desktops = Item.query.filter(Item.name.contains(search_value),Item.Type.contains("computers")).all()
+        laptops = Item.query.filter(Item.name.contains(search_value),Item.Type.contains("laptops")).all()
+
+    if not(desktops) and not(laptops):
+        no_items="No items found"
+            
     if "user" in session:
-        return render_template("items.html",desktops=desktops,laptops=laptops,user= session.get("user",None),hometab="active")
+        return render_template("items.html",desktops=desktops,laptops=laptops,no_items=no_items,user= session.get("user",None),hometab="active")
    
-    return render_template("items.html",desktops=desktops,laptops=laptops,user=None,hometab="active")
+    return render_template("items.html",desktops=desktops,laptops=laptops,no_items=no_items,user=None,hometab="active")
 
 @items.route("/<product_id>",methods=["POST","GET"])
 def product_view(product_id):
@@ -35,6 +53,14 @@ def product_view(product_id):
 def order(change):
     session["order"]= change
     return redirect(url_for("items.home_page"))
+
+@items.route("/search",methods=["POST","GET"])
+def search():
+    
+
+    return redirect(url_for("items.home_page"))
+        
+   
 
 @items.route("/button/<product_id>/<item_type>")
 def add_to_basket(product_id,item_type):
@@ -124,11 +150,11 @@ def basket_page():
                 list = shoppingDict[product.id]
                 quant = int(list[1]) + item.quantity
                 subtotal += float(quant * product.price)
-                shoppingDict[product.id] = [product.name, quant, product.price, subtotal, product.picfile, item.id,product.description,product.Type]
+                shoppingDict[product.id] = [product.name, quant, product.price,  product.picfile, product.id,product.description,product.Type]
         
             else:
                 subtotal += float(item.quantity * product.price)
-                shoppingDict[product.id] = [product.name, item.quantity, product.price, subtotal, product.picfile, item.id,product.description,product.Type]
+                shoppingDict[product.id] = [product.name, item.quantity, product.price,product.picfile, product.id,product.description,product.Type]
 
         return render_template("basket.html",cart=shoppingDict,products=products,subtotal=round(subtotal,2),user=session.get("user",None),basket_tab = "active")
     
