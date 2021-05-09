@@ -122,8 +122,6 @@ const message = document.getElementById("error_messages");
 const validateForm =() =>{
     let messages = [];
     let valid = true;
-
-    let letters = (/^[A-Za-z]+$/);
     let numbers = (/^[0-9]+$/);
     postcode.value = postcode.value.replace(/\s/g, "");
     const postcode_reqs =  /^[A-Z]{1,2}[0-9]{1,2} ?[0-9][A-Z]{2}$/i;
