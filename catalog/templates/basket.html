@@ -47,8 +47,10 @@
 
 
 <div class id="popup-container">
+ 
     <div class id="ordering">
         <h5>Items:<br></h5>
+        
         {% for key, value in cart.items() %}
         
         <ul>    
@@ -65,27 +67,27 @@
         <h5>Total Price: £{{subtotal}}</h5>
         <br>
         <div class ="center">
+            <div class id ="error_messages" style="color:red;"></div>
             <div class id="form">
                 <form action='#' method="post">
                 
-                
-                <p>Credit Card number:</p>
-                    <p> <input type="text" placeholder="Credit card number" name="cn"></p>
+                <p>Credit Card number (No spaces):</p>
+                    <p> <input type="text" required  placeholder="Credit card number"  id ="cn"></p>
                 
                     
                 <p>Security number:</p>
-                    <p> <input type="text" placeholder="Security number" name="cn" /> </p>
+                    <p> <input type="text" required  placeholder="Security number" id ="sn"/> </p>
                 
                 
-                <p>Address1:</p>
-                    <p> <input type="text" placeholder="Address" name="ad" />  </p>
+                <p>Address 1:</p>
+                    <p> <input type="text" required  placeholder="Address" id="ad1"/>  </p>
 
                     
-                <p>Address2:</p>
-                    <p> <input type="text" placeholder="Address2" name="ad" />  </p>
+                <p>Address 2 (Optional):</p>
+                    <p> <input type="text"  placeholder="Address2" id="ad2" />  </p>
                 
                 <p>Postcode:</p>
-                    <p> <input type="text" placeholder="Postcode" name="ad" />  </p>
+                    <p> <input type="text" required placeholder="Postcode" id="ps" />  </p>
                 
                 </form>
             </div>
@@ -109,6 +111,56 @@
 </div>
 
 <script>
+ 
+const credit_card_num = document.getElementById("cn");
+const security_num = document.getElementById("sn");
+const address1 = document.getElementById("ad1");
+const address2 = document.getElementById("ad2");
+const postcode = document.getElementById("ps");
+const message = document.getElementById("error_messages");
+    
+const validateForm =() =>{
+    let messages = [];
+    let valid = true;
+
+    let letters = (/^[A-Za-z]+$/);
+    let numbers = (/^[0-9]+$/);
+    postcode.value = postcode.value.replace(/\s/g, "");
+    const postcode_reqs =  /^[A-Z]{1,2}[0-9]{1,2} ?[0-9][A-Z]{2}$/i;
+
+    if(!credit_card_num.value.match(numbers) || credit_card_num.value.length != 16){
+        messages.push("<li> Credit card number is invalid </li>");
+        valid=false;
+    }
+
+    if(!security_num.value.match(numbers) || (security_num.value.length < 3 || security_num.value.length > 4)){
+        messages.push("<li> Security number is invalid </li>");
+        valid=false;
+    }
+
+    if(!postcode_reqs.test(postcode.value)){
+        messages.push("<li> Postcode is invalid </li>");
+        valid=false;
+    }
+
+    if(address1.value.length == 0){
+        messages.push("<li> Address is invalid </li>");
+        valid=false;
+    }
+    message.innerHTML = messages.join("");
+
+    return valid;
+
+    
+}
+
+
+
+    
+      
+</script>
+
+<script>
     document.getElementById("checkout").addEventListener("click", function(){
         document.getElementById("blackout").style.display="flex";
         document.getElementById("popup-container").style.display="flex";
@@ -118,12 +170,21 @@
 
     })
    
-    
+ 
     document.getElementById("confirm").addEventListener("click", function(){
-        document.getElementById("ordering").style.display="none";
-        document.getElementById("ordered").style.display="flex";
+        if (validateForm()){
+            document.getElementById("ordered").style.display="flex";
+            document.getElementById("ordering").style.display="none";
+        }
+        
+        else{
+            document.getElementById("popup-container") .scrollTop = 0;
+        }
+
+
     })
 
+    
     document.getElementById("cancel").addEventListener("click", function(){
         document.getElementById("blackout").style.display="none";
         document.getElementById("popup-container").style.display="none";
@@ -136,14 +197,17 @@
     })
     
     document.getElementById("done").addEventListener("click", function(){
+       
         document.getElementById("blackout").style.display="none";
         document.getElementById("popup-container").style.display="none";
         document.getElementById("ordered").style.display="none";
-    
+        
     })
 
 
 
 </script>
+
+
 
 {% endblock %}
