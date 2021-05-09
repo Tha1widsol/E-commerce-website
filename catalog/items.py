@@ -150,11 +150,11 @@ def basket_page():
                 list = shoppingDict[product.id]
                 quant = int(list[1]) + item.quantity
                 subtotal += float(quant * product.price)
-                shoppingDict[product.id] = [product.name, quant, product.price,  product.picfile, product.id,product.description,product.Type]
+                shoppingDict[product.id] = [product.name, quant, product.price,  product.picfile, product.id,product.description,product.Type,item.id]
         
             else:
                 subtotal += float(item.quantity * product.price)
-                shoppingDict[product.id] = [product.name, item.quantity, product.price,product.picfile, product.id,product.description,product.Type]
+                shoppingDict[product.id] = [product.name, item.quantity, product.price,product.picfile, product.id,product.description,product.Type,item.id]
 
         return render_template("basket.html",cart=shoppingDict,products=products,subtotal=round(subtotal,2),user=session.get("user",None),basket_tab = "active")
     
