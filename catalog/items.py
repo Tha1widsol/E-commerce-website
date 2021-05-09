@@ -52,7 +52,6 @@ def add_to_basket(product_id,item_type):
             session.pop("quantity",None)
 
         return redirect(url_for("items.home_page",item_type=item_type))
-        
 
     else:
         flash("Please make an account or login before purchasing")
