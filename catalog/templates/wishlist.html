@@ -18,7 +18,7 @@
     <br>
     <h4>&nbsp;{{ value[0] }}</h4>
     <img src="static/images/{{value[4]}}/{{value[1]}}" width="300" height="200" />
-    <p>&nbsp;{{value[3]}}</p>
+    <hr class="mt-0-mb-4">
     <a href="/button/{{value[5]}}/{{value[4]}}"  type="submit" value="submit" class="btn btn-outline-success">Add to basket</a>
     <a href="/{{value[5]}}"  target="blank" type="submit" value="submit" class="btn btn-outline-success">View more info</a>
     <a href="/wishlist/{{value[2]}}" button type="button" class="btn btn-outline-success">Remove</a>
@@ -33,7 +33,7 @@
 
 
 {% if n==0 %}
-<h5>No items in wishlist</h5>
+<h6>No items in wishlist</h6>
 
 {% else %}
 <a href="/wishlist/all" button type="button" class="btn btn-outline-success">Remove all</a>
