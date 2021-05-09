@@ -52,7 +52,6 @@ def add_to_basket(product_id,item_type):
             session.pop("quantity",None)
 
         return redirect(url_for("items.home_page",item_type=item_type))
-        
 
     else:
         flash("Please make an account or login before purchasing")
@@ -112,7 +111,8 @@ def wishlist_page():
 @items.route("/basket")
 def basket_page():
     shoppingDict = {}
-    subtotal = 0 
+    subtotal = 0
+    products = Item.query.all()
     if "user" in session:
         email = session.get("user",None)
         User = Users.query.filter_by(email = email).first()
@@ -123,11 +123,11 @@ def basket_page():
             if product.id in shoppingDict.keys():
                 list = shoppingDict[product.id]
                 quant = int(list[1]) + item.quantity
-                subtotal = int(quant * product.price)
+                subtotal += float(quant * product.price)
                 shoppingDict[product.id] = [product.name, quant, product.price, subtotal, product.picfile, item.id,product.description,product.Type]
         
             else:
-                subtotal = int(item.quantity * product.price)
+                subtotal += float(item.quantity * product.price)
                 shoppingDict[product.id] = [product.name, item.quantity, product.price, subtotal, product.picfile, item.id,product.description,product.Type]
     
 
@@ -137,7 +137,7 @@ def basket_page():
 
     
 
-        return render_template("basket.html",cart=shoppingDict,subtotal=subtotal,user=session.get("user",None),basket_tab = "active")
+        return render_template("basket.html",cart=shoppingDict,products=products,subtotal=round(subtotal,2),user=session.get("user",None),basket_tab = "active")
     
     else:
         flash("Please register or login before accessing basket page")

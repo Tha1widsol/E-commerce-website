@@ -17,8 +17,10 @@
 
 <br>
 <hr class="mt-0-mb-4">
-
 <h3 style="position:relative; left:10px;"><u>Desktops</u></h3>
+
+<div style="display: flex; overflow-x: auto;">
+   
  {% for product in desktops %}
     <div class ="product-container">
     <br>
@@ -37,12 +39,16 @@
    <a href="/{{product.id}}"  target="blank" type="submit" value="submit" class="btn btn-outline-success">View more info</a>
    
    </div>
-   <hr class="mt-0-mb-4">
+  
 {% endfor %}
 
-<h3 style="position:relative; left:10px;"><u>Laptops</u></h3>
+</div>
+<hr class="mt-0-mb-4">
 
+<h3 style="position:relative; left:10px;"><u>Laptops</u></h3>
+<div style="display:flex;  overflow-x: auto;">
 {% for product in laptops %}
+
 <div class ="product-container">
    <br>
    <br>
@@ -60,7 +66,7 @@
   <a href="{{product.id}}"  target="blank" type="submit" value="submit" class="btn btn-outline-success">View more info</a>
   </div>
 
-<hr class="mt-0-mb-4">
 {% endfor %}
+</div>
 
 {% endblock %}
