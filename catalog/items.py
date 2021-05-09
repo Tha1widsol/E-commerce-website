@@ -129,13 +129,6 @@ def basket_page():
             else:
                 subtotal += float(item.quantity * product.price)
                 shoppingDict[product.id] = [product.name, item.quantity, product.price, subtotal, product.picfile, item.id,product.description,product.Type]
-    
-
-        if request.method =="POST":
-            credit_card_num = request.form.get("cn")
-            address = request.form.get("ad")
-
-    
 
         return render_template("basket.html",cart=shoppingDict,products=products,subtotal=round(subtotal,2),user=session.get("user",None),basket_tab = "active")
     
@@ -149,7 +142,7 @@ def done():
     email = session.get("user",None)
     User = Users.query.filter_by(email = email).first()
     clear_basket(User.id)
-    return redirect(url_for("home.home_page"))
+    return redirect(url_for("items.home_page"))
 
 @items.route("/basket/<product_id>")
 def remove_from_basket(product_id):
