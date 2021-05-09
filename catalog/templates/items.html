@@ -4,9 +4,12 @@
 {% endblock %}
 
 {% block content %}
-
    <div class="center">
       <h2> <u>Welcome to the home page</u></h2>
+
+      {% if user==None %}
+      <h6>Please sign in or register to get access to the basket/wishlist page</h6>
+      {% endif %}
 
    </div>
 
@@ -15,12 +18,18 @@
    <a href="/order/asc"  type="submit" value="submit" class="btn btn-outline-success">Order from smallest price</a>
    <a href="/order/desc"  type="submit" value="submit" class="btn btn-outline-success">Order from largest price</a>
 
+   <form class="form-inline" method="post" style="display:inline; position:relative;left:350px;">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search"  autofocus = "autofocus" name="search_string" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" formaction="/home" value="Search">Search</button>
+  </form>
+
 <br>
+
+{% if desktops %}
 <hr class="mt-0-mb-4">
 <h3 style="position:relative; left:10px;"><u>Desktops</u></h3>
-
 <div style="display: flex; overflow-x: auto;">
-   
+
  {% for product in desktops %}
     <div class ="product-container">
     <br>
@@ -43,10 +52,19 @@
 {% endfor %}
 
 </div>
-<hr class="mt-0-mb-4">
 
+
+{% endif %}
+
+
+
+
+{% if laptops %}
+<hr class="mt-0-mb-4">
 <h3 style="position:relative; left:10px;"><u>Laptops</u></h3>
 <div style="display:flex;  overflow-x: auto;">
+
+
 {% for product in laptops %}
 
 <div class ="product-container">
@@ -57,9 +75,6 @@
      <a href = "{{product.id}}"  target="blank"><img src="static/images/{{product.Type}}/{{product.picfile}}" width="300" height="200" /></a>
 
      <p>&nbsp; Price:&nbsp;£{{product.price}}</p>
-     <form action='#' method="post">
-        
-    </form>
     <hr class="mt-0-mb-4">
   <a href="/button/{{product.id}}/{{product.Type}}"  type="submit" value="submit" class="btn btn-outline-success">Add to basket</a>
   <a href="/wishlist/{{product.id}}/{{product.Type}}"  type="submit" value="submit" class="btn btn-outline-success">Add to wishlist</a>
@@ -68,5 +83,10 @@
 
 {% endfor %}
 </div>
+
+
+{% endif %}
+
+<h5 style="text-align: center;">{{no_items}}</h5>
 
 {% endblock %}
