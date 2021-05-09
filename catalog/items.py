@@ -1,5 +1,4 @@
 from flask import Blueprint,render_template,request,session,flash,url_for,redirect
-import os
 from catalog.database import *
 
 
@@ -36,7 +35,7 @@ def home_page():
         laptops = Item.query.filter(Item.name.contains(search_value),Item.Type.contains("laptops")).all()
 
     if not(desktops) and not(laptops):
-        no_items="No items found"
+        no_items="No results found for " + "'" +search_value +"'"
             
     if "user" in session:
         return render_template("items.html",desktops=desktops,laptops=laptops,no_items=no_items,user= session.get("user",None),hometab="active")
@@ -53,15 +52,7 @@ def product_view(product_id):
 def order(change):
     session["order"]= change
     return redirect(url_for("items.home_page"))
-
-@items.route("/search",methods=["POST","GET"])
-def search():
-    
-
-    return redirect(url_for("items.home_page"))
-        
    
-
 @items.route("/button/<product_id>/<item_type>")
 def add_to_basket(product_id,item_type):
     if "user" in session:
