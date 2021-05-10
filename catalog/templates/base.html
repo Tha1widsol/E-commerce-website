@@ -25,7 +25,14 @@
                   
 
                   &nbsp;&nbsp;&nbsp;
+
+                  {% if admin.is_admin %}
+                  <a class="nav-item nav-link" href="/admin">Admin panel</a>
+
+                  {% endif %}
                  <a class="nav-item nav-link active">Logged in as, {{user}}</a>
+
+             
                 {% else %}
                 
                 <a class="nav-item nav-link {{registertab}}" href="register">Register</a>
