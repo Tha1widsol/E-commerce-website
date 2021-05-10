@@ -143,7 +143,7 @@ def basket_page():
             if product.id in shoppingDict.keys():
                 list = shoppingDict[product.id]
                 quant = int(list[1]) + item.quantity
-                subtotal += float(quant * product.price)
+                subtotal = float(quant * product.price)
                 shoppingDict[product.id] = [product.name, quant, product.price,  product.picfile, product.id,product.description,product.Type,item.id]
         
             else:
