@@ -10,6 +10,30 @@ def check_data(*args):
             return True
         else:
             return False
+   #and any(char.isupper() for char in password) and any(char.isdigit() for char in password) and any(char in symbols for char in password):
+def check_password(password):
+    valid = True
+    symbols = ["!","£","$","%","^","&","*","(",")"]
+    if len(password) < 12:
+       flash("Password must be atleast 9 characters long")
+       valid = False
+    
+    if not(any(char.isupper() for char in password)):
+       flash("Password must contain atleast one uppercase character")
+       valid = False
+
+
+    if not(any(char.isdigit() for char in password)):
+       flash("Password must contain atleast one digit")
+       valid = False
+
+
+    if not(any(char in symbols for char in password)):
+       flash("Password must contain atleast one symbol")
+       valid = False
+    
+    return valid
+    
 
 @accounts.route("/register",methods=["POST","GET"])
 def register_page():
@@ -18,31 +42,34 @@ def register_page():
         password = request.form.get("ps").encode("utf-8")
         confirmpass = request.form.get("cps").encode("utf-8")
         if check_data(email,password,confirmpass):
+            if check_password(str(password)):
                 if password == confirmpass:
-                        try:
-                            mumbojumbo = bcrypt.hashpw(password,bcrypt.gensalt())
-                            new_user = Users(email=email,password = mumbojumbo)
-                            db.session.add(new_user)
-                            new_user = Users.query.filter_by(email = email).first()
-                            new_basket = Basket(user_id=new_user.id)
-                            new_wishlist = wishlist(user_id= new_user.id)
-                            db.session.add(new_wishlist)
-                            db.session.add(new_basket)
-                            db.session.commit()
-                            session["user"] = email
-                            
+                    try:
+                        mumbojumbo = bcrypt.hashpw(password,bcrypt.gensalt())
+                        new_user = Users(email=email,password = mumbojumbo)
+                        db.session.add(new_user)
+                        new_user = Users.query.filter_by(email = email).first()
+                        new_basket = Basket(user_id=new_user.id)
+                        new_wishlist = wishlist(user_id= new_user.id)
+                        db.session.add(new_wishlist)
+                        db.session.add(new_basket)
+                        db.session.commit()
+                        session["user"] = email
                         
-                        except:
-                              flash("Email already exists. Please try again")
-                              return redirect(url_for(".register_page"))
-
-                        flash("Account successfully created")
-                        return redirect(url_for("items.home_page"))
-                
+                    
+                    except:
+                            flash("Email already exists. Please try again")
+                            return redirect(url_for(".register_page"))
                 else:
-                    flash("Passwords don't match. Please try again","info")
+                    flash("Passwords don't match")
                     return redirect(url_for(".register_page"))
-                        
+
+                flash("Account successfully created")
+                return redirect(url_for("items.home_page"))
+
+            else:
+                return redirect(url_for(".register_page"))
+                    
         else:
             flash("Invalid details. Please try again")
             return redirect(url_for(".register_page"))
@@ -77,6 +104,8 @@ def login_page():
 
     else:
         return render_template("login.html",logintab="active",user=None)
+
+
 
 @accounts.route("/logout")
 def logout():
