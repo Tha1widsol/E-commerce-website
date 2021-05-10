@@ -10,16 +10,16 @@ input{
 
 
 #blackout{
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    padding-top: 100px; /* Location of the box */
+    display: none; 
+    position: fixed; 
+    padding-top: 100px;
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
 }
 
 #popup-container{
@@ -35,9 +35,11 @@ input{
     position: relative;
     left:190px;
     z-index: 1;
+
     position:fixed;
     
 }
+
 
 .product-container{
     height:auto;
