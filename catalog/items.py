@@ -38,27 +38,32 @@ def home_page():
         no_items="No results found for " + "'" +search_value +"'"
             
     if "user" in session:
-        return render_template("items.html",desktops=desktops,laptops=laptops,no_items=no_items,user= session.get("user",None),hometab="active")
+        return render_template("items.html",desktops=desktops,laptops=laptops,no_items=no_items,user= session.get("user",None),admin=get_user(session.get("user",None)),hometab="active")
    
     return render_template("items.html",desktops=desktops,laptops=laptops,no_items=no_items,user=None,hometab="active")
 
 @items.route("/<product_id>",methods=["POST","GET"])
 def product_view(product_id):
+    item=Item.query.filter_by(id=product_id).first()
     if request.method=="POST":
         session["quantity"] = request.form.get("dropdown")
-    return render_template("product.html",item=Item.query.filter_by(id=product_id).first(),user= session.get("user",None))
+    
+    if item:
+       return render_template("product.html",item=item,user= session.get("user",None),admin = get_user(session.get("user",None)))
+
+
+    return redirect(url_for("items.home_page"))
 
 @items.route("/order/<change>")
 def order(change):
     session["order"]= change
     return redirect(url_for("items.home_page"))
    
-@items.route("/button/<product_id>/<item_type>")
+@items.route("/basket/<product_id>/<item_type>")
 def add_to_basket(product_id,item_type):
     if "user" in session:
         flash("Item added to basket")
-        email = session.get("user",None)
-        User = Users.query.filter_by(email = email).first()
+        User = get_user(session.get("user",None))
         quantity = session.get("quantity",None)
         basket = Basket.query.filter_by(user_id=User.id).first()
         basket_item = BasketItems(basket_id=basket.id, product_id=product_id, quantity=quantity)
@@ -77,17 +82,17 @@ def add_to_basket(product_id,item_type):
 @items.route("/wishlist/<product_id>/<item_type>")
 def add_to_wishlist(product_id,item_type):
     if "user" in session:
-        email = session.get("user",None)
-        User = Users.query.filter_by(email = email).first()
+        User = get_user(session.get("user",None))
         Wishlist = wishlist.query.filter_by(user_id=User.id).first()
-        try:
-            wishlist_item = WishListItems(wishlist_id=Wishlist.id, product_id=product_id)
+        wishlist_item = WishListItems(wishlist_id=Wishlist.id, product_id=product_id)
+        existing_wishlist_item = WishListItems.query.filter_by(wishlist_id=Wishlist.id, product_id=product_id).all()
+
+        if not(existing_wishlist_item):
             db.session.add(wishlist_item)
-            
             db.session.commit()
             flash("Item added to wishlist")
         
-        except:
+        else:
             flash("Item is already added to wishlist")
         
 
@@ -101,8 +106,7 @@ def add_to_wishlist(product_id,item_type):
 def wishlist_page():
     wishlistDict = {}
     if "user" in session:
-        email = session.get("user",None)
-        User = Users.query.filter_by(email = email).first()  
+        User = get_user(session.get("user",None))  
         items = WishListItems.query.filter_by(wishlist_id=User.id).all()
         for item in items:
             product = Item.query.filter_by(id=item.product_id).first()
@@ -115,7 +119,7 @@ def wishlist_page():
             else:
                 wishlistDict[product.id] = [product.name, product.picfile, item.id,product.description,product.Type,product.id]
 
-        return render_template("wishlist.html",cart = wishlistDict,user=session.get("user",None),wishlist_tab="active",n = len(wishlistDict))
+        return render_template("wishlist.html",cart = wishlistDict,user=session.get("user",None),wishlist_tab="active",n = len(wishlistDict),admin=User)
     
     else:
         flash("Please log in or register to access wishlist page")
@@ -131,8 +135,7 @@ def basket_page():
     subtotal = 0
     products = Item.query.all()
     if "user" in session:
-        email = session.get("user",None)
-        User = Users.query.filter_by(email = email).first()
+        User = User = get_user(session.get("user",None))
         items = BasketItems.query.filter_by(basket_id=User.id).all()
 
         for item in items:
@@ -147,7 +150,7 @@ def basket_page():
                 subtotal += float(item.quantity * product.price)
                 shoppingDict[product.id] = [product.name, item.quantity, product.price,product.picfile, product.id,product.description,product.Type,item.id]
 
-        return render_template("basket.html",cart=shoppingDict,products=products,subtotal=round(subtotal,2),user=session.get("user",None),basket_tab = "active")
+        return render_template("basket.html",cart=shoppingDict,products=products,subtotal=round(subtotal,2),user=session.get("user",None),basket_tab = "active",admin=User)
     
     else:
         flash("Please log in or register to access basket page")
@@ -156,15 +159,13 @@ def basket_page():
 
 @items.route("/done")
 def done():
-    email = session.get("user",None)
-    User = Users.query.filter_by(email = email).first()
+    User = get_user(session.get("user",None))
     clear_basket(User.id)
     return redirect(url_for("items.home_page"))
 
 @items.route("/basket/<product_id>")
 def remove_from_basket(product_id):
-    email = session.get("user",None)
-    User = Users.query.filter_by(email = email).first()
+    User = get_user(session.get("user",None))
     try:
         basket_product = BasketItems.query.filter_by(id=product_id, basket_id=User.id).first()
         db.session.delete(basket_product)
@@ -180,8 +181,7 @@ def remove_from_basket(product_id):
 
 @items.route("/wishlist/<product_id>")
 def remove_from_wishlist(product_id):
-    email = session.get("user",None)
-    User = Users.query.filter_by(email = email).first()
+    User = get_user(session.get("user",None))
     try:
         wishlist_product = WishListItems.query.filter_by(id=product_id, wishlist_id=User.id).first()
         db.session.delete(wishlist_product)

@@ -5,6 +5,7 @@
 
 {% block content %}
    <div class="center">
+      <br>
       <h2> <u>Welcome to the home page</u></h2>
 
       {% if user==None %}
@@ -43,7 +44,7 @@
          
      </form>
      <hr class="mt-0-mb-4">
-   <a href="/button/{{product.id}}/{{product.Type}}"  type="submit" value="submit" class="btn btn-outline-success">Add to basket</a>
+   <a href="/basket/{{product.id}}/{{product.Type}}"  type="submit" value="submit" class="btn btn-outline-success">Add to basket</a>
    <a href="/wishlist/{{product.id}}/{{product.Type}}"  type="submit" value="submit" class="btn btn-outline-success">Add to wishlist</a>
    <a href="/{{product.id}}"  target="blank" type="submit" value="submit" class="btn btn-outline-success">View more info</a>
    
@@ -76,7 +77,7 @@
 
      <p>&nbsp; Price:&nbsp;£{{product.price}}</p>
     <hr class="mt-0-mb-4">
-  <a href="/button/{{product.id}}/{{product.Type}}"  type="submit" value="submit" class="btn btn-outline-success">Add to basket</a>
+  <a href="/basket/{{product.id}}/{{product.Type}}"  type="submit" value="submit" class="btn btn-outline-success">Add to basket</a>
   <a href="/wishlist/{{product.id}}/{{product.Type}}"  type="submit" value="submit" class="btn btn-outline-success">Add to wishlist</a>
   <a href="{{product.id}}"  target="blank" type="submit" value="submit" class="btn btn-outline-success">View more info</a>
   </div>

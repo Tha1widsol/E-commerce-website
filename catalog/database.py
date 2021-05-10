@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import desc
-
+import bcrypt
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = "helsgddo"
@@ -11,67 +11,86 @@ app.config['SQLALCHEMY_POOL_RECYCLE'] = 90
 db = SQLAlchemy(app)
 
 class Users(db.Model):
-	 id = db.Column("id",db.Integer,primary_key=True)
-	 email = db.Column(db.String(),unique=True)
-	 password = db.Column(db.String(),unique=True)
-	 
-	 def __init__(self,email,password):
-		  self.email = email 
-		  self.password = password
+     id = db.Column("id",db.Integer,primary_key=True)
+     email = db.Column(db.String(),unique=True)
+     password = db.Column(db.String(),unique=True)
+     is_admin = db.Column(db.Boolean,nullable=False,default=False)
+     
+     def __init__(self,email,password,is_admin=False):
+          self.email = email 
+          self.password = password
+          self.is_admin = is_admin
 
+def get_user(email):
+    return Users.query.filter_by(email = email).first()
 
 class Item(db.Model):
-	  id = db.Column("id",db.Integer,primary_key=True)
-	  Type = db.Column(db.String())
-	  name = db.Column(db.String(),unique=True)
-	  description = db.Column(db.Text,unique=True)
-	  price = db.Column(db.Float)
-	  picfile = db.Column(db.String(),unique=True)
+      id = db.Column("id",db.Integer,primary_key=True)
+      Type = db.Column(db.String())
+      name = db.Column(db.String(),unique=True)
+      description = db.Column(db.Text,unique=True)
+      price = db.Column(db.Float)
+      picfile = db.Column(db.String(),unique=True)
 
-	  def __init__(self,Type,name,description,price,picfile):
-		  self.Type = Type
-		  self.name = name
-		  self.description = description
-		  self.price = price
-		  self.picfile = picfile
+      def __init__(self,Type,name,description,price,picfile):
+          self.Type = Type
+          self.name = name
+          self.description = description
+          self.price = price
+          self.picfile = picfile
 
 class Basket(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-	items = db.relationship('BasketItems', backref='basket', lazy=True)
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    items = db.relationship('BasketItems', backref='basket', lazy=True)
 
 
 class BasketItems(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	basket_id = db.Column(db.Integer, db.ForeignKey('basket.id'))
-	product_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
-	quantity = db.Column(db.Integer, nullable=False,default =1)
+    id = db.Column(db.Integer, primary_key=True)
+    basket_id = db.Column(db.Integer, db.ForeignKey('basket.id'))
+    product_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False,default =1)
 
 def clear_basket(UserID):
-	 basket_items = BasketItems.query.filter_by(basket_id=UserID).all()
-	 for item in basket_items:
-			db.session.delete(item)
-	 db.session.commit()
+     basket_items = BasketItems.query.filter_by(basket_id=UserID).all()
+     for item in basket_items:
+            db.session.delete(item)
+     db.session.commit()
 
 def clear_wishlist(UserID):
-	 wishlist_items = WishListItems.query.filter_by(wishlist_id=UserID).all()
-	 for item in wishlist_items:
-			db.session.delete(item)
-	 db.session.commit()
+     wishlist_items = WishListItems.query.filter_by(wishlist_id=UserID).all()
+     for item in wishlist_items:
+            db.session.delete(item)
+     db.session.commit()
 
 class wishlist(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-	items = db.relationship('WishListItems', backref='wishlist', lazy=True)
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    items = db.relationship('WishListItems', backref='wishlist', lazy=True)
 
 
 class WishListItems(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	wishlist_id = db.Column(db.Integer, db.ForeignKey('wishlist.id'))
-	product_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False,unique=True)
+    id = db.Column(db.Integer, primary_key=True)
+    wishlist_id = db.Column(db.Integer, db.ForeignKey('wishlist.id'))
+    product_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
 
 
 db.create_all()
+
+def create_admin(email,password):
+    admin_pass = password.encode("utf-8")
+    mumbojumbo = bcrypt.hashpw(admin_pass,bcrypt.gensalt())
+    new_admin = Users(email=email,password = mumbojumbo,is_admin=True)
+    db.session.add(new_admin)
+    new_admin = Users.query.filter_by(email = email).first()
+    new_basket = Basket(user_id=new_admin.id)
+    new_wishlist = wishlist(user_id= new_admin.id)
+    db.session.add(new_wishlist)
+    db.session.add(new_basket)
+
+    db.session.commit()
+
+#create_admin("admin2@gmail.com","testing")
 
 Item.query.delete()
 
