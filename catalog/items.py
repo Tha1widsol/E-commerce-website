@@ -150,7 +150,7 @@ def basket_page():
         return render_template("basket.html",cart=shoppingDict,products=products,subtotal=round(subtotal,2),user=session.get("user",None),basket_tab = "active")
     
     else:
-        flash("Please register or login before accessing basket page")
+        flash("Please log in or register to access basket page")
         return redirect(url_for("accounts.register_page"))
         
 

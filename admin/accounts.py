@@ -82,6 +82,7 @@ def login_page():
 def logout():
     if "user" in session:
          session.pop("user",None)
+         flash("Logged out successfully")
          return redirect(url_for("items.home_page"))
     
     else:
