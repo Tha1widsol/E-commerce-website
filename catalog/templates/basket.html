@@ -76,7 +76,16 @@
                 <p>Credit Card number (No spaces):</p>
                     <p> <input type="text" required  placeholder="Credit card number"  id ="cn"></p>
                 
-                    
+                <p>Expiry date:</p>
+                <div style="display:inline-flex;">
+                    <label for="month" style="position: relative; right:10px;">Month:</label>
+                    <select id="month" name="month"> </select>
+                    <label for="year" style="position: relative; left:12px;">Year:</label>
+                    <select id="year" name="year" style="position: relative; left:22px;"> </select>
+                
+                </div>
+               <br>
+               <br>
                 <p>Security number:</p>
                     <p> <input type="text" required  placeholder="Security number" id ="sn"/> </p>
                 
@@ -208,6 +217,22 @@ const validateForm =() =>{
 
 </script>
 
+<script>
+const dropdown = (start,end,counter=1) => {
+  let options = "";
 
+  for(let y=start; y<=end; y++){
+    options += "<option>"+ y +"</option>";
+
+  }
+
+  return options;
+
+  }
+let d =new Date();
+let current_year = d.getFullYear();
+  document.getElementById("month").innerHTML = dropdown(1,12);
+  document.getElementById("year").innerHTML = dropdown(current_year,current_year+4);
+</script>
 
 {% endblock %}

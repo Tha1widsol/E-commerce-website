@@ -10,7 +10,7 @@ admin = Admin(app,name="Admin panel",template_mode='bootstrap4')
 class AdminView(ModelView):
     def is_accessible(self):
         if "user" in session:
-            User = get_userid(session.get("user",None))
+            User = get_user(session.get("user",None))
             return User.is_admin
 
         return False
