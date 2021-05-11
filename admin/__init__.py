@@ -5,7 +5,7 @@ from flask_login import login_user
 from .accounts import register_page
 from catalog.database import *
 
-admin = Admin(app,name="Admin panel",template_mode='bootstrap4')
+admin = Admin(app,name="Admin panel",template_mode='bootstrap4',base_template="admin.html")
 
 class AdminView(ModelView):
     def is_accessible(self):

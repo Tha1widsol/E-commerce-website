@@ -105,8 +105,6 @@ def login_page():
     else:
         return render_template("login.html",logintab="active",user=None)
 
-
-
 @accounts.route("/logout")
 def logout():
     if "user" in session:
