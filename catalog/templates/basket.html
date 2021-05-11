@@ -18,7 +18,7 @@
 </div>
 
 {% for key, value in cart.items() %}
-<div class ="product-container">
+<div class ="product-container" style="margin: 0 auto;" >
     <br>
     <br>
     <h4>&nbsp;{{ value[0] }}</h4>
@@ -38,17 +38,18 @@
 {% endfor %}
 
 {% if subtotal >0 %}
+<div class="center">
 <br>
-<a href="/basket/all" button type="button" class="btn btn-outline-success">Remove all</a>
+<p ><a  href="/basket/all"  button type="button" class="btn btn-outline-success" >Remove all</a></p>
 <br>
-<br>
-<h4>Total Price: £{{subtotal}}&nbsp;&nbsp;<button id="checkout" button type="button" class="btn btn-outline-success">Checkout</button> </h4> 
+
+<h4 >Total Price: £{{subtotal}}&nbsp;&nbsp;<button id="checkout" button type="button" class="btn btn-outline-success">Checkout</button> </h4> 
 {% else %}
-<h5 style="text-align: center; position: relative; top:30px;">No items in basket</h5>
+<h5 style="position: relative; top:30px; text-align: center;">No items in basket</h5>
 {% endif %}
 
-
-<div class id="popup-container">
+</div>
+<div class id="popup-container" >
  
     <div class id="ordering">
         <h5>Items:<br></h5>
