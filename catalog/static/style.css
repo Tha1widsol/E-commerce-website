@@ -24,18 +24,16 @@ input{
 
 #popup-container{
     background-color: #fefefe;
-    height:500px;
-    width: 900px;
-    bottom:50px;
+    top: 40;
+    width:auto;
+    left:130;
+    height:450;
     background: white;
     padding: 20px;
     border-radius: 5px;
     display: none;
     overflow: scroll;
-    position: relative;
-    left:190px;
     z-index: 1;
-
     position:fixed;
     
 }
@@ -43,7 +41,7 @@ input{
 
 .product-container{
     height:auto;
-    width: 600px;
+    width: 500px;
     border-style: solid;
     border-color: white;
     border-width:10px;
