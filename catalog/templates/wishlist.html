@@ -14,7 +14,7 @@
  
 {% for key, value in cart.items() %}
 
-<div class ="product-container">
+<div class ="product-container" style="margin: 0 auto;" >
     <br>
     <br>
     <h4>&nbsp;{{ value[0] }}</h4>
@@ -37,8 +37,10 @@
 <h5 style="text-align: center; position: relative; top:30px;">No items in wishlist</h5>
 
 {% else %}
+<div class="center">
+    <br>
 <a href="/wishlist/all" button type="button" class="btn btn-outline-success">Remove all</a>
-
+</div>
 {% endif %}
 
 
