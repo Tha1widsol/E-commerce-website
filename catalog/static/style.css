@@ -24,15 +24,17 @@ input{
 
 #popup-container{
     background-color: #fefefe;
-    top: 40;
-    width:auto;
-    left:130;
-    height:450;
+    left: 50%;
+    top:300;
+    transform: translate(-50%, -50%);
+    width: 820;
+    height:500;
     background: white;
     padding: 20px;
     border-radius: 5px;
     display: none;
     overflow: scroll;
+    overflow-x: hidden;
     z-index: 1;
     position:fixed;
     
