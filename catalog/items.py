@@ -149,14 +149,25 @@ def basket_page():
             else:
                 subtotal += float(item.quantity * product.price)
                 shoppingDict[product.id] = [product.name, item.quantity, product.price,product.picfile, product.id,product.description,product.Type,item.id]
+            
+        session["basket_items"] = shoppingDict
+        session["subtotal"] = subtotal
 
         return render_template("basket.html",cart=shoppingDict,products=products,subtotal=round(subtotal,2),user=session.get("user",None),basket_tab = "active",admin=User)
     
     else:
         flash("Please log in or register to access basket page")
         return redirect(url_for("accounts.register_page"))
-        
+    
+@items.route("/checkout")
+def checkout_page():
+    subtotal = session.get("subtotal",None)
+    if "user" in session and subtotal > 0:
+        User = get_user(session.get("user",None))
+        return render_template("checkout.html",cart = session.get("basket_items",None),subtotal=round(subtotal,2),user=session.get("user",None),admin=User)
 
+    return redirect(url_for("items.home_page"))
+    
 @items.route("/done")
 def done():
     User = get_user(session.get("user",None))

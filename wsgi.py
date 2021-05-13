@@ -3,6 +3,7 @@ from catalog.items import *
 from admin.accounts import *
 from catalog.database import *
 from catalog.database import app as application
+from admin.view import *
 
 application.register_blueprint(items,url_prefix="/") 
 application.register_blueprint(accounts,url_prefix="/")
