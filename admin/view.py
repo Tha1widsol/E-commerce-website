@@ -1,11 +1,9 @@
 from flask_admin import Admin
-from flask import session,render_template,redirect,url_for
+from flask import session
 from flask_admin.contrib.sqla import ModelView
-from flask_login import login_user
-from .accounts import register_page
 from catalog.database import *
 
-admin = Admin(app,name="Admin panel",template_mode='bootstrap4',base_template="index.html")
+admin = Admin(app,name="Admin panel",template_mode='bootstrap4')
 
 class AdminView(ModelView):
     def is_accessible(self):
