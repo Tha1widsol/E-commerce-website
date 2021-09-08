@@ -7,17 +7,18 @@
 
 
 <div class="center" style="position:relative; top:50px;">
-
-<form action='#' method="post">
-<p>Email:</p>
-    <p> <input type="email" placeholder="Email" name="em" />  </p>
-<p>Password:</p>
-    <p><input type="password" placeholder="Password" name="ps"/></p>
-
-<button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="submit">Enter</button>
-
-</form>
-
-</div>
+    
+    {% from "_formhelpers.html" import render_field %}
+    <form method=post>
+        {{ form.csrf_token }}
+        <p>Email:</p>
+       {{ form.email}}
+      <p>Password:</p>
+        {{ form.password}}
+     
+    
+      <p><input type=submit value= Login class="btn btn-outline-success">
+    </form>
+       
 
 {% endblock %}
