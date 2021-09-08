@@ -1,4 +1,4 @@
-from flask import Flask,Blueprint,render_template,redirect,url_for,request,session,flash
+from flask import Blueprint,render_template,redirect,url_for,request,session,flash
 from catalog.database import *
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_wtf import FlaskForm
@@ -7,13 +7,13 @@ from wtforms import  PasswordField,StringField
 accounts = Blueprint("accounts",__name__,static_folder="static",template_folder="templates")
 
 class RegistrationForm(FlaskForm):
-    email = StringField()
-    password = PasswordField()
-    confirm = PasswordField()
+    email = StringField(render_kw={"placeholder": "Email"})
+    password = PasswordField(render_kw={"placeholder": "Password"})
+    confirm = PasswordField(render_kw={"placeholder": "Confirm password"})
 
 class LoginForm(FlaskForm):
-    email = StringField()
-    password = PasswordField()
+    email = StringField(render_kw={"placeholder": "Email"})
+    password = PasswordField(render_kw={"placeholder": "Password"})
 
 def check_data(*args):
     for data in args:
@@ -96,7 +96,7 @@ def register_page():
 
 @accounts.route("/login",methods=["POST","GET"])
 def login_page():
-    
+
     if "user" in session:
          return redirect("items.home_page")
 
