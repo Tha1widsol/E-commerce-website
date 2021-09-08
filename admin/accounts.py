@@ -1,8 +1,19 @@
 from flask import Flask,Blueprint,render_template,redirect,url_for,request,session,flash
 from catalog.database import *
-import bcrypt
+from werkzeug.security import check_password_hash, generate_password_hash
+from flask_wtf import FlaskForm
+from wtforms import  PasswordField,StringField
+
 accounts = Blueprint("accounts",__name__,static_folder="static",template_folder="templates")
 
+class RegistrationForm(FlaskForm):
+    email = StringField()
+    password = PasswordField()
+    confirm = PasswordField()
+
+class LoginForm(FlaskForm):
+    email = StringField()
+    password = PasswordField()
 
 def check_data(*args):
     for data in args:
@@ -37,16 +48,18 @@ def check_password(password):
 
 @accounts.route("/register",methods=["POST","GET"])
 def register_page():
-    if request.method =="POST":
-        email = request.form.get("em")
-        password = request.form.get("ps").encode("utf-8")
-        confirmpass = request.form.get("cps").encode("utf-8")
+    form = RegistrationForm(request.form)
+    if request.method =="POST" and form.validate():
+        email = form.email.data
+        password = form.password.data
+        confirmpass = form.confirm.data
+
         if check_data(email,password,confirmpass):
             if check_password(str(password)):
                 if password == confirmpass:
                     try:
-                        mumbojumbo = bcrypt.hashpw(password,bcrypt.gensalt())
-                        new_user = Users(email=email,password = mumbojumbo)
+                        hashed = generate_password_hash(password)
+                        new_user = Users(email=email,password = hashed)
                         db.session.add(new_user)
                         new_user = Users.query.filter_by(email = email).first()
                         new_basket = Basket(user_id=new_user.id)
@@ -55,11 +68,11 @@ def register_page():
                         db.session.add(new_basket)
                         db.session.commit()
                         session["user"] = email
-                        
-                    
+
                     except:
-                            flash("Email already exists. Please try again")
-                            return redirect(url_for(".register_page"))
+                        flash("Email already exists")
+                        return redirect(url_for(".register_page"))
+                        
                 else:
                     flash("Passwords don't match")
                     return redirect(url_for(".register_page"))
@@ -77,23 +90,31 @@ def register_page():
 
     else:
         if "user" in session:
-            return render_template("register.html",registertab="active",user= session.get("user",None))
+            return redirect("items.home_page")
         else:
-            return render_template("register.html",registertab="active",user=None)
+            return render_template("register.html",registertab="active",user=None,form = form)
 
 @accounts.route("/login",methods=["POST","GET"])
 def login_page():
-    if request.method=="POST":
-        email = request.form.get("em")
-        password = request.form.get("ps").encode("utf-8")
+    
+    if "user" in session:
+         return redirect("items.home_page")
+
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        email = form.email.data
+        password = form.password.data
+
         if check_data(email,password):
-            found_user = Users.query.filter_by(email=email)
+            found_user = get_user(email)
+
             if found_user:
-                for i in found_user:
-                    if bcrypt.checkpw(password,i.password):
+                    if check_password_hash(found_user.password,password):
                         session["user"] = email
                         flash("Logged in successfully")
                         return redirect(url_for("items.home_page"))
+
                 
             flash("Username or password is incorrect")
             return redirect(url_for(".login_page"))
@@ -103,7 +124,7 @@ def login_page():
             return redirect(url_for(".login_page"))
 
     else:
-        return render_template("login.html",logintab="active",user=None)
+        return render_template("login.html",logintab="active",user=None,form = form)
 
 @accounts.route("/logout")
 def logout():
