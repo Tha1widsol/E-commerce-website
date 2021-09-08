@@ -8,28 +8,25 @@
 
 <div class="center">
     <p style="text-align: center; font-size: large; position: relative; top:10px;">Password:</p>
-    <li class="req">Must be atleast 9 characters long</li>
-    <li class="req">Contains atleast one uppercase character + number</li>
-    <li class="req">Contains atleast one of these symbols: !,£,$,%,^,&,*,(,)</li>
+    <p> - Must be atleast 9 characters long</p>
+    <p> - Contains atleast one uppercase character + number</p>
+    <p> - Contains atleast one of these symbols: !,£,$,%,^,&,*,(,)</p>
     <br>
-<form action='#' method="post">
 
+{% from "_formhelpers.html" import render_field %}
+<form method=post>
+    {{form.csrf_token}}
 
-<p>Email:</p>
-    <p> <input type="email" placeholder="Email" name="em" required />  </p>
+    <p>Email:</p>
+   {{ form.email}}
+  <p>Password:</p>
+    {{ form.password}}
+    <p>Confirm password:</p>
+    {{form.confirm }}
+  
 
-<p>Password:</p>
-    <p><input type="password" placeholder="Password" name="ps" required  /></p>
-
-<p> Confirm password:</p>
-    <p><input type="password" placeholder="confirm password" name="cps"  required  /></p>
-
-
-<button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="submit"  >Enter</button>
-
+  <p><input type=submit value=Register class="btn btn-outline-success">
 </form>
-
-</div>
-
+   
 
 {% endblock %}
