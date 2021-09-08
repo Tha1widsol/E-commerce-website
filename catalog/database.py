@@ -1,8 +1,8 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import desc
-import bcrypt
-app = Flask(__name__)
+
+app = Flask(__name__,template_folder='templates')
 
 app.config['SECRET_KEY'] = "helsgddo"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
@@ -89,8 +89,6 @@ def create_admin(email,password):
     db.session.add(new_basket)
 
     db.session.commit()
-
-#create_admin("admin2@gmail.com","testing")
 
 Item.query.delete()
 
