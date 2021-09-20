@@ -61,7 +61,7 @@ def register_page():
                         hashed = generate_password_hash(password)
                         new_user = Users(email=email,password = hashed)
                         db.session.add(new_user)
-                        new_user = get_user()
+                        new_user = get_user(email)
                         new_basket = Basket(user_id=new_user.id)
                         new_wishlist = wishlist(user_id= new_user.id)
                         db.session.add(new_wishlist)
